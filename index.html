@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     <style>
-        /* Base Styles & Accessibility Improvements */
+        /* Styles remain the same as v10.10 */
         :root {
             /* Default Theme (Parchment) Variables */
             --bg-color: #f7f3e9;
@@ -172,7 +172,7 @@
 </head>
 <body class="p-4 md:p-8">
 
-    <span id="canary" class="hidden">sqr-v1.0-refactor</span>
+    <span id="canary" class="hidden">sqr-v1.0.2-gen-debug</span>
     <div id="canary-warning" class="canary-warning hidden max-w-4xl mx-auto">
         Warning: App integrity check failed! The application code may have been modified.
     </div>
@@ -266,10 +266,7 @@
 
         <div id="info-page" class="page" role="tabpanel">
              <div class="info-contact-content">
-                 <h2>Info / FAQ</h2>
-                 <h3>What is SideQuestr?</h3>
-                 <p>SideQuestr is a simple tool designed to inject a bit of randomness and adventure into your everyday life. It generates random "quests"—small, sometimes quirky tasks or observations—to encourage you to explore your surroundings, try new things, and embrace the spirit of a side quest!</p>
-                 <h3>How does it work?</h3> <p>The app randomly combines actions...</p> <ul> <li>Use the <strong>Quest Log</strong> tab...</li> <li>Click <strong>Generate Quests</strong>...</li> <li>Optionally, enter a <strong>Custom Location</strong>...</li> <li>Click <strong>Accept</strong>...</li> <li>When you complete a quest... click <strong>Mark Complete</strong>...</li> <li>Don't like a quest... Click its <strong>Reroll</strong> button...</li> <li>Use the <strong>📝 Notes</strong> button...</li> <li>Browse your noted quests in the <strong>Travel Journal</strong> tab.</li><li>Earn badges on the <strong>Achievements</strong> tab.</li> </ul> <h3>What do the tags and profile info mean?</h3> <ul> <li><strong>Scope...</strong></li> <li><strong>Type...</strong></li> <li><strong>Quirky...</strong></li> <li><strong>Travel Icons...</strong></li> <li><strong>Level & Title...</strong></li> <li><strong>XP Bar...</strong></li> <li><strong>Completion Date...</strong></li> </ul> <h3>How does XP and Leveling work?</h3> <p>You gain Experience Points (XP)...</p> <ul> <li><code>Local</code> / <code>Custom Loc.</code>: 10 XP</li> <li><code>Regional</code>: 30 XP</li> <li><code>Epic</code>: 100 XP</li> <li><code>Quirky</code> Bonus: +5 XP</li> </ul> <p>As you gain XP, you'll automatically level up...</p> <h3>Is my data saved?</h3> <p>Yes, your quest lists, XP, level, custom location, notes, stats, and achievement progress are saved in your browser's <strong>local storage</strong>...</p> <p>There are no user accounts or cloud saving...</p>
+                 <h2>Info / FAQ</h2> <h3>What is SideQuestr?</h3> <p>SideQuestr is a simple tool...</p> <h3>How does it work?</h3> <p>The app randomly combines actions...</p> <ul> <li>Use the <strong>Quest Log</strong> tab...</li> <li>Click <strong>Generate Quests</strong>...</li> <li>Optionally, enter a <strong>Custom Location</strong>...</li> <li>Click <strong>Accept</strong>...</li> <li>When you complete a quest... click <strong>Mark Complete</strong>...</li> <li>Don't like a quest... Click its <strong>Reroll</strong> button...</li> <li>Use the <strong>📝 Notes</strong> button...</li> <li>Browse your noted quests in the <strong>Travel Journal</strong> tab.</li><li>Earn badges on the <strong>Achievements</strong> tab.</li> </ul> <h3>What do the tags and profile info mean?</h3> <ul> <li><strong>Scope...</strong></li> <li><strong>Type...</strong></li> <li><strong>Quirky...</strong></li> <li><strong>Travel Icons...</strong></li> <li><strong>Level & Title...</strong></li> <li><strong>XP Bar...</strong></li> <li><strong>Completion Date...</strong></li> </ul> <h3>How does XP and Leveling work?</h3> <p>You gain Experience Points (XP)...</p> <ul> <li><code>Local</code> / <code>Custom Loc.</code>: 10 XP</li> <li><code>Regional</code>: 30 XP</li> <li><code>Epic</code>: 100 XP</li> <li><code>Quirky</code> Bonus: +5 XP</li> </ul> <p>As you gain XP, you'll automatically level up...</p> <h3>Is my data saved?</h3> <p>Yes, your quest lists, XP, level, custom location, notes, stats, and achievement progress are saved in your browser's <strong>local storage</strong>...</p> <p>There are no user accounts or cloud saving...</p>
              </div>
         </div>
 
@@ -282,1141 +279,202 @@
     </div>
     <script>
         // ==========================================================================
-        // SideQuestr v1.0 - Application Script
+        // SideQuestr v1.0.2 - Application Script (Debugging)
         // ==========================================================================
-        // This script handles all the logic for the SideQuestr application,
-        // including quest generation, state management, UI rendering, and features
-        // like achievements, themes, sounds, and journaling.
+        // Handles quest generation, state management, UI rendering, achievements,
+        // themes, sounds, journaling, and other features. Includes extra logging.
 
-        // --------------------------------------------------------------------------
-        // DATA DEFINITIONS
-        // --------------------------------------------------------------------------
-
-        /**
-         * Contains the raw data used for generating quests.
-         * Includes actions, objects, locations, modifiers, and templates.
-         */
-        const questData = {
-            actions: [ "Find", "Visit", "Create", "Document", "Taste", "Learn", "Observe", "Ask", "Perform", "Buy", "Give", "Listen to", "Try", "Build", "Write", "Draw", "Photograph", "Compliment", "Share", "Teach", "Start a conversation with" ],
-            objects: [ "a hidden mural", "a recipe using only 5 ingredients", "the oldest tree you can find", "a unique flavor of ice cream", "a basic phrase in a new language", "the architecture of a specific building", "a stranger for a book recommendation", "a random act of kindness", "a small gift for a friend", "an entire music album you've never heard", "a bird call", "something perfectly symmetrical", "a cloud that looks like an animal", "a type of tea you've never had", "a historical marker", "a piece of 'found art'", "a specific type of insect", "a handwritten note", "a short story", "a map of your neighborhood from memory", "a shadow puppet", "someone's cool shoes", "a positive online review for a local business", "a piece of useful advice", "a barista about their day", "a piece of street art", "a funny-shaped vegetable", "a local band's music", "a new board game", "a constellation in the night sky" ],
-            locations_local: [ "the nearest park", "a library you haven't visited", "a cafe with outdoor seating", "a public art installation", "a viewpoint overlooking the city", "a specific bridge (like the Peace Bridge)", "a quiet side street", "the produce section of a grocery store", "a local bookstore (like Shelf Life Books)", "a museum (like Glenbow or Studio Bell)", "the Bow River pathway", "Fish Creek Park", "Nose Hill Park", "Prince's Island Park", "a community garden", "a farmer's market", "a thrift store", "17th Ave SW", "Kensington", "Inglewood", "East Village Riverwalk", "Stephen Avenue Walk", "Central Library" ],
-            locations_regional: [ "Banff National Park", "Canmore", "Drumheller", "Jasper National Park", "Waterton Lakes National Park", "Kananaskis Country", "a town within a 2-hour drive", "Sylvan Lake", "Badlands Guardian viewpoint" ],
-            locations_epic: [ "Vancouver", "Gros Morne National Park", "Toronto", "Montreal", "a different province", "a different country", "the Pacific coastline", "a Rocky Mountain peak", "the Atlantic Ocean", "Haida Gwaii" ],
-            modifiers: [ "at sunrise", "at sunset", "while wearing a specific color", "and write a haiku about it", "documenting it with only photos", "with a friend", "in under an hour", "without using your phone (except for navigation)", "and describe the sounds you hear", "and rate the experience 1-5 stars", "anonymously", "and leave a positive note", "using only your non-dominant hand", "blindfolded (safely!)", "in complete silence", "and thank someone involved", "and learn one new fact about it", "while humming your favorite song", "and tell a friend about it later" ],
-            templates: [
-                { structure: "{action} {object}", scope: "Local", type: "General", quirky: 1, travelMode: "walk" },
-                { structure: "{action} {object} {modifier}", scope: "Local", type: "General", quirky: 2, travelMode: "walk" },
-                { structure: "Visit {location_local} and {action} {object}", scope: "Local", type: "Exploration", quirky: 1, travelMode: "walk_bike_bus" },
-                { structure: "Visit {location_local} {modifier}", scope: "Local", type: "Exploration", quirky: 2, travelMode: "walk_bike_bus" },
-                { structure: "{action} {object} at {location_local}", scope: "Local", type: "General", quirky: 1, travelMode: "walk_bike_bus" },
-                { structure: "Visit {location_regional} and {action} {object}", scope: "Regional", type: "Exploration", quirky: 1, travelMode: "bus_train_car" },
-                { structure: "{action} {object} in {location_regional}", scope: "Regional", type: "General", quirky: 1, travelMode: "bus_train_car" },
-                { structure: "Travel to {location_epic} and {action} {object}", scope: "Epic", type: "Exploration", quirky: 1, travelMode: "train_plane" },
-                { structure: "Travel to {location_epic} {modifier}", scope: "Epic", type: "Exploration", quirky: 2, travelMode: "train_plane" },
-                { structure: "Perform {object}", scope: "Local", type: "Kindness", quirky: 2, objectFilter: ["a random act of kindness"], travelMode: "walk" },
-                { structure: "Compliment {object}", scope: "Local", type: "Social", quirky: 1, objectFilter: ["someone's cool shoes", "a stranger", "a barista about their day"], travelMode: "walk" },
-                { structure: "Ask {object}", scope: "Local", type: "Social", quirky: 1, objectFilter: ["a stranger for a book recommendation", "a barista about their day"], travelMode: "walk" },
-                { structure: "Start a conversation with {object}", scope: "Local", type: "Social", quirky: 2, objectFilter: ["a barista about their day", "someone walking a dog (ask dog's name)", "a shopkeeper"], travelMode: "walk" },
-                { structure: "Create {object}", scope: "Local", type: "Creative", quirky: 2, objectFilter: ["a short story", "a map of your neighborhood from memory", "a shadow puppet", "a haiku about it"], travelMode: "walk" },
-                { structure: "Learn {object}", scope: "Local", type: "Learning", quirky: 1, objectFilter: ["a basic phrase in a new language", "a bird call", "one new fact about it", "to tie a specific knot"], travelMode: "walk" },
-                { structure: "Find a {object} and {action} it {modifier}", scope: "Local", type: "Exploration", quirky: 3, travelMode: "walk_bike" },
-                { structure: "{action} {object} in {custom_location}", scope: "Custom", type: "Exploration", quirky: 1, travelMode: "walk_bike_bus" }
-            ]
+        // --- Data Definitions (questData, levelTitles, achievements) ---
+        const questData = { /* ... (same as v10) ... */
+            actions: [ "Find", "Visit", "Create", "Document", "Taste", "Learn", "Observe", "Ask", "Perform", "Buy", "Give", "Listen to", "Try", "Build", "Write", "Draw", "Photograph", "Compliment", "Share", "Teach", "Start a conversation with" ], objects: [ "a hidden mural", "a recipe using only 5 ingredients", "the oldest tree you can find", "a unique flavor of ice cream", "a basic phrase in a new language", "the architecture of a specific building", "a stranger for a book recommendation", "a random act of kindness", "a small gift for a friend", "an entire music album you've never heard", "a bird call", "something perfectly symmetrical", "a cloud that looks like an animal", "a type of tea you've never had", "a historical marker", "a piece of 'found art'", "a specific type of insect", "a handwritten note", "a short story", "a map of your neighborhood from memory", "a shadow puppet", "someone's cool shoes", "a positive online review for a local business", "a piece of useful advice", "a barista about their day", "a piece of street art", "a funny-shaped vegetable", "a local band's music", "a new board game", "a constellation in the night sky" ], locations_local: [ "the nearest park", "a library you haven't visited", "a cafe with outdoor seating", "a public art installation", "a viewpoint overlooking the city", "a specific bridge (like the Peace Bridge)", "a quiet side street", "the produce section of a grocery store", "a local bookstore (like Shelf Life Books)", "a museum (like Glenbow or Studio Bell)", "the Bow River pathway", "Fish Creek Park", "Nose Hill Park", "Prince's Island Park", "a community garden", "a farmer's market", "a thrift store", "17th Ave SW", "Kensington", "Inglewood", "East Village Riverwalk", "Stephen Avenue Walk", "Central Library" ], locations_regional: [ "Banff National Park", "Canmore", "Drumheller", "Jasper National Park", "Waterton Lakes National Park", "Kananaskis Country", "a town within a 2-hour drive", "Sylvan Lake", "Badlands Guardian viewpoint" ], locations_epic: [ "Vancouver", "Gros Morne National Park", "Toronto", "Montreal", "a different province", "a different country", "the Pacific coastline", "a Rocky Mountain peak", "the Atlantic Ocean", "Haida Gwaii" ], modifiers: [ "at sunrise", "at sunset", "while wearing a specific color", "and write a haiku about it", "documenting it with only photos", "with a friend", "in under an hour", "without using your phone (except for navigation)", "and describe the sounds you hear", "and rate the experience 1-5 stars", "anonymously", "and leave a positive note", "using only your non-dominant hand", "blindfolded (safely!)", "in complete silence", "and thank someone involved", "and learn one new fact about it", "while humming your favorite song", "and tell a friend about it later" ],
+            templates: [ { structure: "{action} {object}", scope: "Local", type: "General", quirky: 1, travelMode: "walk" }, { structure: "{action} {object} {modifier}", scope: "Local", type: "General", quirky: 2, travelMode: "walk" }, { structure: "Visit {location_local} and {action} {object}", scope: "Local", type: "Exploration", quirky: 1, travelMode: "walk_bike_bus" }, { structure: "Visit {location_local} {modifier}", scope: "Local", type: "Exploration", quirky: 2, travelMode: "walk_bike_bus" }, { structure: "{action} {object} at {location_local}", scope: "Local", type: "General", quirky: 1, travelMode: "walk_bike_bus" }, { structure: "Visit {location_regional} and {action} {object}", scope: "Regional", type: "Exploration", quirky: 1, travelMode: "bus_train_car" }, { structure: "{action} {object} in {location_regional}", scope: "Regional", type: "General", quirky: 1, travelMode: "bus_train_car" }, { structure: "Travel to {location_epic} and {action} {object}", scope: "Epic", type: "Exploration", quirky: 1, travelMode: "train_plane" }, { structure: "Travel to {location_epic} {modifier}", scope: "Epic", type: "Exploration", quirky: 2, travelMode: "train_plane" }, { structure: "Perform {object}", scope: "Local", type: "Kindness", quirky: 2, objectFilter: ["a random act of kindness"], travelMode: "walk" }, { structure: "Compliment {object}", scope: "Local", type: "Social", quirky: 1, objectFilter: ["someone's cool shoes", "a stranger", "a barista about their day"], travelMode: "walk" }, { structure: "Ask {object}", scope: "Local", type: "Social", quirky: 1, objectFilter: ["a stranger for a book recommendation", "a barista about their day"], travelMode: "walk" }, { structure: "Start a conversation with {object}", scope: "Local", type: "Social", quirky: 2, objectFilter: ["a barista about their day", "someone walking a dog (ask dog's name)", "a shopkeeper"], travelMode: "walk" }, { structure: "Create {object}", scope: "Local", type: "Creative", quirky: 2, objectFilter: ["a short story", "a map of your neighborhood from memory", "a shadow puppet", "a haiku about it"], travelMode: "walk" }, { structure: "Learn {object}", scope: "Local", type: "Learning", quirky: 1, objectFilter: ["a basic phrase in a new language", "a bird call", "one new fact about it", "to tie a specific knot"], travelMode: "walk" }, { structure: "Find a {object} and {action} it {modifier}", scope: "Local", type: "Exploration", quirky: 3, travelMode: "walk_bike" }, { structure: "{action} {object} in {custom_location}", scope: "Custom", type: "Exploration", quirky: 1, travelMode: "walk_bike_bus" } ]
          };
+        const levelTitles = { /* ... (same as v10) ... */ 1: "Novice Quester", 3: "Budding Explorer", 5: "Seasoned Adventurer", 7: "Trailblazer", 10: "Quirk Master", 15: "Local Legend", 20: "World Wanderer" };
+        const achievements = { /* ... (same as v10) ... */ complete_1: { id: 'complete_1', name: "First Step!", description: "Complete your first quest.", icon: "🌱", earned: false, criteria: (stats) => stats.totalCompleted >= 1 }, complete_10: { id: 'complete_10', name: "Quest Adept", description: "Complete 10 quests.", icon: "⭐", earned: false, criteria: (stats) => stats.totalCompleted >= 10 }, level_5: { id: 'level_5', name: "Seasoned Adventurer", description: "Reach Level 5.", icon: "🧭", earned: false, criteria: (stats, level) => level >= 5 }, level_10: { id: 'level_10', name: "Quirk Master", description: "Reach Level 10.", icon: "🧙", earned: false, criteria: (stats, level) => level >= 10 }, social_5: { id: 'social_5', name: "Social Butterfly", description: "Complete 5 'Social' quests.", icon: "💬", earned: false, criteria: (stats) => (stats.completedByType['Social'] || 0) >= 5 }, creative_5: { id: 'creative_5', name: "Creative Spark", description: "Complete 5 'Creative' quests.", icon: "🎨", earned: false, criteria: (stats) => (stats.completedByType['Creative'] || 0) >= 5 }, journal_3: { id: 'journal_3', name: "Chronicler", description: "Add notes to 3 completed quests.", icon: "✍️", earned: false, criteria: (stats) => stats.questsWithNotes >= 3 }, };
 
-        /**
-         * Defines titles awarded at different level thresholds.
-         */
-        const levelTitles = {
-            1: "Novice Quester",
-            3: "Budding Explorer",
-            5: "Seasoned Adventurer",
-            7: "Trailblazer",
-            10: "Quirk Master",
-            15: "Local Legend",
-            20: "World Wanderer"
-        };
+        // --- State Variables ---
+        let availableQuests = []; let activeQuests = []; let completedQuests = [];
+        let currentXP = 0; let currentLevel = 1; const baseXpForLevel = 100;
+        let customLocation = ''; let currentPage = 'quest-log-page';
+        let currentTheme = 'default';
+        let stats = { totalCompleted: 0, completedByType: {}, questsWithNotes: 0 };
+        let achievementStatus = {};
+        let soundEnabled = true;
+        let audioContextStarted = false;
 
-        /**
-         * Defines the available achievements and their criteria.
-         */
-        const achievements = {
-            complete_1: { id: 'complete_1', name: "First Step!", description: "Complete your first quest.", icon: "🌱", earned: false, criteria: (stats) => stats.totalCompleted >= 1 },
-            complete_10: { id: 'complete_10', name: "Quest Adept", description: "Complete 10 quests.", icon: "⭐", earned: false, criteria: (stats) => stats.totalCompleted >= 10 },
-            level_5: { id: 'level_5', name: "Seasoned Adventurer", description: "Reach Level 5.", icon: "🧭", earned: false, criteria: (stats, level) => level >= 5 },
-            level_10: { id: 'level_10', name: "Quirk Master", description: "Reach Level 10.", icon: "🧙", earned: false, criteria: (stats, level) => level >= 10 },
-            social_5: { id: 'social_5', name: "Social Butterfly", description: "Complete 5 'Social' quests.", icon: "💬", earned: false, criteria: (stats) => (stats.completedByType['Social'] || 0) >= 5 },
-            creative_5: { id: 'creative_5', name: "Creative Spark", description: "Complete 5 'Creative' quests.", icon: "🎨", earned: false, criteria: (stats) => (stats.completedByType['Creative'] || 0) >= 5 },
-            journal_3: { id: 'journal_3', name: "Chronicler", description: "Add notes to 3 completed quests.", icon: "✍️", earned: false, criteria: (stats) => stats.questsWithNotes >= 3 },
-        };
+        // --- Local Storage Keys ---
+        const LS_KEYS = { AVAILABLE: 'sideQuestr_available', ACTIVE: 'sideQuestr_active', COMPLETED: 'sideQuestr_completed', XP: 'sideQuestr_xp', LOCATION: 'sideQuestr_customLocation', STATS: 'sideQuestr_stats', ACHIEVEMENTS: 'sideQuestr_achievements', THEME: 'sideQuestr_theme', SOUND: 'sideQuestr_soundEnabled' };
 
-        // --------------------------------------------------------------------------
-        // STATE VARIABLES
-        // --------------------------------------------------------------------------
+        // --- DOM Elements ---
+        const generateBtn = document.getElementById('generate-quests-btn'); const customLocationInput = document.getElementById('custom-location-input'); const availableList = document.getElementById('available-quests-list'); const activeList = document.getElementById('active-quests-list'); const completedList = document.getElementById('completed-quests-list'); const journalList = document.getElementById('journal-entries-list'); const levelDisplay = document.getElementById('level'); const profileTitleDisplay = document.getElementById('profile-title'); const xpDisplay = document.getElementById('xp'); const xpNextDisplay = document.getElementById('xp-next'); const xpProgress = document.getElementById('xp-progress'); const pageContainer = document.getElementById('page-container'); const navTabs = document.querySelectorAll('.nav-tab'); const pages = document.querySelectorAll('.page'); const canaryElement = document.getElementById('canary'); const canaryWarning = document.getElementById('canary-warning'); const levelUpAlert = document.getElementById('level-up-alert'); const achievementAlert = document.getElementById('achievement-alert'); const filterOptionsContainer = document.getElementById('filter-options'); const achievementsListContainer = document.getElementById('achievements-list'); const themeSwitcherButtons = document.querySelectorAll('.theme-switcher button[data-theme]'); const muteButton = document.getElementById('mute-button');
 
-        let availableQuests = [];         // Array of quest objects available to accept
-        let activeQuests = [];            // Array of quest objects currently accepted
-        let completedQuests = [];         // Array of quest objects completed
-        let currentXP = 0;                // User's current experience points
-        let currentLevel = 1;             // User's current level
-        const baseXpForLevel = 100;       // Base XP needed for level 2
-        let customLocation = '';          // User-entered custom location preference
-        let currentPage = 'quest-log-page'; // ID of the currently visible page section
-        let currentTheme = 'default';     // Active visual theme ('default', 'dark', 'forest')
-        let stats = {                     // User statistics for achievements etc.
-            totalCompleted: 0,
-            completedByType: {},
-            questsWithNotes: 0
-        };
-        let achievementStatus = {};       // Stores earned status of achievements { id: boolean }
-        let soundEnabled = true;          // Whether sound effects are muted
-        let audioContextStarted = false;  // Flag: Has user interaction started the audio context?
+         // --- Sound Synthesis (Tone.js) ---
+         let synth, levelUpSynth, achievementSynth;
+         const initAudio = () => { /* ... (same as v10.3) ... */ if (typeof Tone !== 'undefined' && !synth) { try { synth = new Tone.Synth({ oscillator: { type: 'triangle' }, envelope: { attack: 0.01, decay: 0.1, sustain: 0.1, release: 0.2 } }).toDestination(); levelUpSynth = new Tone.Synth({ oscillator: { type: 'sine' }, envelope: { attack: 0.05, decay: 0.2, sustain: 0.3, release: 0.5 } }).toDestination(); achievementSynth = new Tone.Synth({ oscillator: { type: 'square' }, envelope: { attack: 0.01, decay: 0.2, sustain: 0.2, release: 0.2 } }).toDestination(); console.log("Audio synths initialized."); } catch (e) { console.error("Failed to initialize audio synths:", e); soundEnabled = false; updateMuteButton(); } } };
+         const startAudioContext = async () => { /* ... (same as v10.6) ... */ if (typeof Tone !== 'undefined' && Tone.context.state !== 'running') { try { await Tone.start(); console.log("Audio context started successfully."); audioContextStarted = true; initAudio(); } catch (e) { console.error("Tone.start() failed. Audio might remain suspended.", e); soundEnabled = false; updateMuteButton(); audioContextStarted = false; } } else if (typeof Tone !== 'undefined' && Tone.context.state === 'running') { audioContextStarted = true; initAudio(); } };
+         const playSound = (type) => { /* ... (same as v10.6) ... */
+             if (!soundEnabled || !audioContextStarted || typeof Tone === 'undefined') { return; }
+             initAudio(); // Ensure synths are initialized
+             try { const now = Tone.now(); if (type === 'complete' && synth) { synth.triggerAttackRelease("C4", "8n", now); } else if (type === 'levelUp' && levelUpSynth) { levelUpSynth.triggerAttackRelease("C4", "8n", now); levelUpSynth.triggerAttackRelease("E4", "8n", now + 0.15); levelUpSynth.triggerAttackRelease("G4", "4n", now + 0.3); } else if (type === 'achievement' && achievementSynth) { achievementSynth.triggerAttackRelease("A4", "4n", now); } else if (type === 'generate' && synth) { synth.triggerAttackRelease("E3", "16n", now); } else if (type === 'accept' && synth) { synth.triggerAttackRelease("A3", "16n", now); } else if (type === 'reroll' && synth) { synth.triggerAttackRelease("F3", "16n", now); } else { if (type === 'complete' && !synth) console.warn("playSound: 'synth' not ready for 'complete'"); if (type === 'levelUp' && !levelUpSynth) console.warn("playSound: 'levelUpSynth' not ready for 'levelUp'"); if (type === 'achievement' && !achievementSynth) console.warn("playSound: 'achievementSynth' not ready for 'achievement'"); } } catch (e) { console.error(`Error playing sound type "${type}":`, e); } };
 
-        // --------------------------------------------------------------------------
-        // LOCAL STORAGE KEYS (Constants for consistency)
-        // --------------------------------------------------------------------------
-        const LS_KEYS = {
-            AVAILABLE: 'sideQuestr_available',
-            ACTIVE: 'sideQuestr_active',
-            COMPLETED: 'sideQuestr_completed',
-            XP: 'sideQuestr_xp',
-            LOCATION: 'sideQuestr_customLocation',
-            STATS: 'sideQuestr_stats',
-            ACHIEVEMENTS: 'sideQuestr_achievements',
-            THEME: 'sideQuestr_theme',
-            SOUND: 'sideQuestr_soundEnabled'
-        };
+        // --- Utility Functions ---
+        const getTitleForLevel = (level) => { /* ... (same as v8) ... */ let currentTitle = levelTitles[1]; for (const levelThreshold in levelTitles) { if (level >= parseInt(levelThreshold)) { currentTitle = levelTitles[levelThreshold]; } else { break; } } return currentTitle; };
+        const getRandomElement = (arr) => { /* ... (same as v8) ... */ if (!arr || arr.length === 0) return null; return arr[Math.floor(Math.random() * arr.length)]; }; const xpForNextLevel = (level) => baseXpForLevel * Math.pow(1.5, level - 1); const calculateLevel = (xp) => { /* ... (same as v8) ... */ let level = 1; let required = xpForNextLevel(level); while (xp >= required) { xp -= required; level++; required = xpForNextLevel(level); } return level; }; const calculateRemainingXp = (xp) => { /* ... (same as v8) ... */ let level = 1; let required = xpForNextLevel(level); while (xp >= required) { xp -= required; level++; required = xpForNextLevel(level); } return xp; }; const formatDate = (dateString) => { /* ... (same as v8) ... */ if (!dateString) return ''; try { const date = new Date(dateString); if (isNaN(date.getTime())) { return ''; } return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }); } catch (e) { console.error("Error formatting date:", dateString, e); return ''; } };
 
-        // --------------------------------------------------------------------------
-        // DOM ELEMENT REFERENCES
-        // --------------------------------------------------------------------------
-
-        const generateBtn = document.getElementById('generate-quests-btn');
-        const customLocationInput = document.getElementById('custom-location-input');
-        const availableList = document.getElementById('available-quests-list');
-        const activeList = document.getElementById('active-quests-list');
-        const completedList = document.getElementById('completed-quests-list');
-        const journalList = document.getElementById('journal-entries-list');
-        const levelDisplay = document.getElementById('level');
-        const profileTitleDisplay = document.getElementById('profile-title');
-        const xpDisplay = document.getElementById('xp');
-        const xpNextDisplay = document.getElementById('xp-next');
-        const xpProgress = document.getElementById('xp-progress');
-        const pageContainer = document.getElementById('page-container');
-        const navTabs = document.querySelectorAll('.nav-tab');
-        const pages = document.querySelectorAll('.page');
-        const canaryElement = document.getElementById('canary');
-        const canaryWarning = document.getElementById('canary-warning');
-        const levelUpAlert = document.getElementById('level-up-alert');
-        const achievementAlert = document.getElementById('achievement-alert');
-        const filterOptionsContainer = document.getElementById('filter-options');
-        const achievementsListContainer = document.getElementById('achievements-list');
-        const themeSwitcherButtons = document.querySelectorAll('.theme-switcher button[data-theme]');
-        const muteButton = document.getElementById('mute-button');
-
-        // --------------------------------------------------------------------------
-        // SOUND SYNTHESIS (Tone.js)
-        // --------------------------------------------------------------------------
-
-        let synth, levelUpSynth, achievementSynth; // Synth instances
-
-        /**
-         * Initializes the Tone.js synthesizers if they haven't been created yet.
-         * Should be called after the audio context is started.
-         */
-        const initAudio = () => {
-             if (typeof Tone !== 'undefined' && !synth) { // Only init if Tone loaded and not already done
-                 try {
-                     synth = new Tone.Synth({ oscillator: { type: 'triangle' }, envelope: { attack: 0.01, decay: 0.1, sustain: 0.1, release: 0.2 } }).toDestination();
-                     levelUpSynth = new Tone.Synth({ oscillator: { type: 'sine' }, envelope: { attack: 0.05, decay: 0.2, sustain: 0.3, release: 0.5 } }).toDestination();
-                     achievementSynth = new Tone.Synth({ oscillator: { type: 'square' }, envelope: { attack: 0.01, decay: 0.2, sustain: 0.2, release: 0.2 } }).toDestination();
-                     console.log("Audio synths initialized.");
-                 } catch (e) {
-                     console.error("Failed to initialize audio synths:", e);
-                     soundEnabled = false; // Disable sound if synths fail
-                     updateMuteButton();
-                 }
-             }
-         };
-
-        /**
-         * Attempts to start the Tone.js AudioContext. Required by browsers before playing sound.
-         * Should be called in response to a user interaction (e.g., button click).
-         * Sets the audioContextStarted flag on success.
-         */
-        const startAudioContext = async () => {
-             if (typeof Tone !== 'undefined' && Tone.context.state !== 'running') {
-                 try {
-                     await Tone.start();
-                     console.log("Audio context started successfully.");
-                     audioContextStarted = true;
-                     initAudio(); // Initialize synths now that context is running
-                 } catch (e) {
-                     console.error("Tone.start() failed. Audio might remain suspended.", e);
-                     soundEnabled = false; // Disable sound if start fails
-                     updateMuteButton();
-                     audioContextStarted = false; // Explicitly set flag to false
-                 }
-             } else if (typeof Tone !== 'undefined' && Tone.context.state === 'running') {
-                 audioContextStarted = true; // Already running
-                 initAudio(); // Ensure synths are initialized
-             }
-         };
-
-        /**
-         * Plays a sound effect based on the type.
-         * Checks if sound is enabled and the audio context has been started.
-         * @param {string} type - The type of sound to play ('complete', 'levelUp', 'achievement', 'generate', 'accept', 'reroll').
-         */
-         const playSound = (type) => {
-             if (!soundEnabled || !audioContextStarted || typeof Tone === 'undefined') {
-                 // console.log(`Sound skipped: enabled=${soundEnabled}, contextStarted=${audioContextStarted}, Tone=${typeof Tone}`);
-                 return; // Exit if sound disabled, context not started, or Tone not loaded
-             }
-             initAudio(); // Double-check synth initialization
-
-             try {
-                const now = Tone.now();
-                // Select the correct synth and play the sound
-                if (type === 'complete' && synth) { synth.triggerAttackRelease("C4", "8n", now); }
-                else if (type === 'levelUp' && levelUpSynth) { levelUpSynth.triggerAttackRelease("C4", "8n", now); levelUpSynth.triggerAttackRelease("E4", "8n", now + 0.15); levelUpSynth.triggerAttackRelease("G4", "4n", now + 0.3); }
-                else if (type === 'achievement' && achievementSynth) { achievementSynth.triggerAttackRelease("A4", "4n", now); }
-                else if (type === 'generate' && synth) { synth.triggerAttackRelease("E3", "16n", now); }
-                else if (type === 'accept' && synth) { synth.triggerAttackRelease("A3", "16n", now); }
-                else if (type === 'reroll' && synth) { synth.triggerAttackRelease("F3", "16n", now); }
-                else {
-                    // Log a warning if the specific synth needed wasn't ready
-                    if (type === 'complete' && !synth) console.warn("playSound: 'synth' not ready for 'complete'");
-                    if (type === 'levelUp' && !levelUpSynth) console.warn("playSound: 'levelUpSynth' not ready for 'levelUp'");
-                    if (type === 'achievement' && !achievementSynth) console.warn("playSound: 'achievementSynth' not ready for 'achievement'");
-                }
-             } catch (e) {
-                 console.error(`Error playing sound type "${type}":`, e);
-             }
-         };
-
-        // --------------------------------------------------------------------------
-        // UTILITY FUNCTIONS
-        // --------------------------------------------------------------------------
-
-        /**
-         * Gets a random element from an array. Handles empty arrays safely.
-         * @param {Array} arr - The array to pick from.
-         * @returns {*} A random element from the array, or null if the array is empty.
-         */
-        const getRandomElement = (arr) => {
-            if (!arr || arr.length === 0) return null;
-            return arr[Math.floor(Math.random() * arr.length)];
-        };
-
-        /**
-         * Calculates the total XP required to reach the *next* level.
-         * Uses simple exponential growth.
-         * @param {number} level - The current level.
-         * @returns {number} The XP needed to reach the next level.
-         */
-        const xpForNextLevel = (level) => baseXpForLevel * Math.pow(1.5, level - 1);
-
-        /**
-         * Calculates the player's level based on their total XP.
-         * @param {number} xp - The total current XP.
-         * @returns {number} The calculated level.
-         */
-        const calculateLevel = (xp) => {
-            let level = 1;
-            let required = xpForNextLevel(level);
-            while (xp >= required) {
-                xp -= required;
-                level++;
-                required = xpForNextLevel(level);
-            }
-            return level;
-        };
-
-        /**
-         * Calculates the amount of XP earned *towards* the current level.
-         * @param {number} xp - The total current XP.
-         * @returns {number} The XP earned since the last level up.
-         */
-        const calculateRemainingXp = (xp) => {
-             let level = 1;
-             let required = xpForNextLevel(level);
-             while (xp >= required) {
-                 xp -= required;
-                 level++;
-                 required = xpForNextLevel(level);
-             }
-             return xp;
-         };
-
-        /**
-         * Formats an ISO date string into a more readable format (e.g., "Apr 11, 2025").
-         * @param {string} dateString - An ISO date string.
-         * @returns {string} The formatted date string, or empty string if input is invalid.
-         */
-        const formatDate = (dateString) => {
-            if (!dateString) return '';
-            try {
-                const date = new Date(dateString);
-                 // Check if date is valid before formatting
-                 if (isNaN(date.getTime())) {
-                    return ''; // Return empty for invalid dates
-                 }
-                return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
-            } catch (e) {
-                console.error("Error formatting date:", dateString, e);
-                return ''; // Return empty on error
-            }
-        };
-
-        /**
-         * Gets the appropriate profile title based on the current level.
-         * @param {number} level - The current level.
-         * @returns {string} The corresponding title string.
-         */
-        const getTitleForLevel = (level) => {
-            let currentTitle = levelTitles[1]; // Default title
-            // Find the highest level title the player qualifies for by iterating thresholds
-            for (const levelThreshold in levelTitles) {
-                if (level >= parseInt(levelThreshold)) {
-                    currentTitle = levelTitles[levelThreshold];
-                } else {
-                    // Since keys are ordered (or should be), we can stop early
-                    break;
-                }
-            }
-            return currentTitle;
-        };
-
-
-        // --------------------------------------------------------------------------
-        // THEME MANAGEMENT
-        // --------------------------------------------------------------------------
-
-        /**
-         * Applies the selected theme by adding/removing classes on the body element.
-         * Saves the theme preference to local storage.
-         * @param {string} themeName - The name of the theme to apply ('default', 'dark', 'forest').
-         */
-        const applyTheme = (themeName) => {
-            document.body.classList.remove('theme-dark', 'theme-forest'); // Remove other themes first
-            if (themeName === 'dark') {
-                document.body.classList.add('theme-dark');
-            } else if (themeName === 'forest') {
-                 document.body.classList.add('theme-forest');
-            }
-            // 'default' theme doesn't need a class as styles are in :root
-
-            currentTheme = themeName;
-            localStorage.setItem(LS_KEYS.THEME, themeName);
-
-            // Update active button style for visual feedback
-            themeSwitcherButtons.forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.theme === themeName);
-            });
-        };
-
-        // Add event listeners to theme switcher buttons
-        themeSwitcherButtons.forEach(button => {
-            button.addEventListener('click', () => applyTheme(button.dataset.theme));
-        });
+        // --- Theme Management ---
+        const applyTheme = (themeName) => { /* ... (same as v10) ... */ document.body.classList.remove('theme-dark', 'theme-forest'); if (themeName === 'dark') { document.body.classList.add('theme-dark'); } else if (themeName === 'forest') { document.body.classList.add('theme-forest'); } currentTheme = themeName; localStorage.setItem(LS_KEYS.THEME, themeName); themeSwitcherButtons.forEach(btn => { btn.classList.toggle('active', btn.dataset.theme === themeName); }); };
+        themeSwitcherButtons.forEach(button => { button.addEventListener('click', () => applyTheme(button.dataset.theme)); });
 
         // --- Mute Button ---
-        /**
-         * Updates the mute button's text/icon and title based on the soundEnabled state.
-         */
-         const updateMuteButton = () => {
-             muteButton.textContent = soundEnabled ? '🔊' : '🔇';
-             muteButton.title = soundEnabled ? 'Mute Sound' : 'Unmute Sound';
-             muteButton.setAttribute('aria-label', soundEnabled ? 'Mute Sound Effects' : 'Unmute Sound Effects');
-         };
+         const updateMuteButton = () => { /* ... (same as v10) ... */ muteButton.textContent = soundEnabled ? '🔊' : '🔇'; muteButton.title = soundEnabled ? 'Mute Sound' : 'Unmute Sound'; muteButton.setAttribute('aria-label', soundEnabled ? 'Mute Sound Effects' : 'Unmute Sound Effects'); };
+         muteButton.addEventListener('click', async () => { /* ... (same as v10) ... */ soundEnabled = !soundEnabled; localStorage.setItem(LS_KEYS.SOUND, soundEnabled); updateMuteButton(); if (soundEnabled) { await startAudioContext(); playSound('accept'); } });
 
-         /**
-          * Handles clicks on the mute button, toggling sound state and updating storage/UI.
-          */
-         muteButton.addEventListener('click', async () => { // Make async for await startAudioContext
-             soundEnabled = !soundEnabled;
-             localStorage.setItem(LS_KEYS.SOUND, soundEnabled);
-             updateMuteButton();
-             // If unmuting, try to ensure the audio context is ready
-             if (soundEnabled) {
-                 await startAudioContext(); // Attempt to start context
-                 playSound('accept'); // Play a confirmation sound
-             }
-         });
+        // --- Page Navigation ---
+        const showPage = (pageId) => { /* ... (same as v8) ... */ pages.forEach(page => { page.classList.toggle('active', page.id === pageId); }); navTabs.forEach(tab => { tab.classList.toggle('active', tab.dataset.page === pageId); tab.setAttribute('aria-selected', String(tab.dataset.page === pageId)); }); currentPage = pageId; renderUI(); };
+        navTabs.forEach(tab => { tab.addEventListener('click', () => showPage(tab.dataset.page)); });
 
+        // --- Save/Load Data ---
+        const saveData = () => { /* ... (same as v10) ... */ try { localStorage.setItem(LS_KEYS.AVAILABLE, JSON.stringify(availableQuests)); localStorage.setItem(LS_KEYS.ACTIVE, JSON.stringify(activeQuests)); localStorage.setItem(LS_KEYS.COMPLETED, JSON.stringify(completedQuests)); localStorage.setItem(LS_KEYS.XP, currentXP.toString()); localStorage.setItem(LS_KEYS.LOCATION, customLocation); localStorage.setItem(LS_KEYS.STATS, JSON.stringify(stats)); localStorage.setItem(LS_KEYS.ACHIEVEMENTS, JSON.stringify(achievementStatus)); localStorage.setItem(LS_KEYS.THEME, currentTheme); localStorage.setItem(LS_KEYS.SOUND, soundEnabled); } catch (e) { console.error("Error saving data:", e); } };
+        const loadData = () => { /* ... (same as v10) ... */ try { availableQuests = JSON.parse(localStorage.getItem(LS_KEYS.AVAILABLE)) || []; activeQuests = JSON.parse(localStorage.getItem(LS_KEYS.ACTIVE)) || []; completedQuests = JSON.parse(localStorage.getItem(LS_KEYS.COMPLETED)) || []; activeQuests.forEach(q => q.notes = q.notes || ''); completedQuests.forEach(q => { q.notes = q.notes || ''; q.completionDate = q.completionDate || null; }); currentXP = parseInt(localStorage.getItem(LS_KEYS.XP)) || 0; customLocation = localStorage.getItem(LS_KEYS.LOCATION) || ''; customLocationInput.value = customLocation; currentLevel = calculateLevel(currentXP); stats = JSON.parse(localStorage.getItem(LS_KEYS.STATS)) || { totalCompleted: 0, completedByType: {}, questsWithNotes: 0 }; achievementStatus = JSON.parse(localStorage.getItem(LS_KEYS.ACHIEVEMENTS)) || {}; currentTheme = localStorage.getItem(LS_KEYS.THEME) || 'default'; soundEnabled = localStorage.getItem(LS_KEYS.SOUND) !== 'false'; applyTheme(currentTheme); updateMuteButton(); } catch (e) { console.error("Error loading data:", e); /* Reset state on error */ availableQuests = []; activeQuests = []; completedQuests = []; currentXP = 0; currentLevel = 1; customLocation = ''; stats = { totalCompleted: 0, completedByType: {}, questsWithNotes: 0 }; achievementStatus = {}; currentTheme = 'default'; soundEnabled = true; } };
 
-        // --------------------------------------------------------------------------
-        // PAGE NAVIGATION
-        // --------------------------------------------------------------------------
-
-        /**
-         * Shows the specified page section and hides others. Updates active tab style.
-         * @param {string} pageId - The ID of the page div element to show.
-         */
-        const showPage = (pageId) => {
-            pages.forEach(page => {
-                page.classList.toggle('active', page.id === pageId);
-            });
-            navTabs.forEach(tab => {
-                tab.classList.toggle('active', tab.dataset.page === pageId);
-                // Update ARIA selected state for accessibility
-                tab.setAttribute('aria-selected', String(tab.dataset.page === pageId));
-            });
-            currentPage = pageId;
-            renderUI(); // Re-render UI in case content needs updating based on page (e.g., Journal)
-        };
-
-        // Add event listeners to navigation tabs
-        navTabs.forEach(tab => {
-            tab.addEventListener('click', () => showPage(tab.dataset.page));
-        });
-
-        // --------------------------------------------------------------------------
-        // DATA PERSISTENCE (Save/Load)
-        // --------------------------------------------------------------------------
-
-        /**
-         * Saves the current application state to local storage.
-         */
-        const saveData = () => {
-            try {
-                localStorage.setItem(LS_KEYS.AVAILABLE, JSON.stringify(availableQuests));
-                localStorage.setItem(LS_KEYS.ACTIVE, JSON.stringify(activeQuests));
-                localStorage.setItem(LS_KEYS.COMPLETED, JSON.stringify(completedQuests));
-                localStorage.setItem(LS_KEYS.XP, currentXP.toString());
-                localStorage.setItem(LS_KEYS.LOCATION, customLocation);
-                localStorage.setItem(LS_KEYS.STATS, JSON.stringify(stats));
-                localStorage.setItem(LS_KEYS.ACHIEVEMENTS, JSON.stringify(achievementStatus));
-                localStorage.setItem(LS_KEYS.THEME, currentTheme);
-                localStorage.setItem(LS_KEYS.SOUND, soundEnabled);
-            } catch (e) {
-                console.error("Error saving data to local storage:", e);
-                // Optionally notify user that data couldn't be saved
-            }
-        };
-
-        /**
-         * Loads the application state from local storage on startup.
-         * Initializes state with defaults if no saved data is found.
-         */
-        const loadData = () => {
-            try {
-                availableQuests = JSON.parse(localStorage.getItem(LS_KEYS.AVAILABLE)) || [];
-                activeQuests = JSON.parse(localStorage.getItem(LS_KEYS.ACTIVE)) || [];
-                completedQuests = JSON.parse(localStorage.getItem(LS_KEYS.COMPLETED)) || [];
-
-                // Ensure loaded quests have necessary properties (backward compatibility)
-                activeQuests.forEach(q => q.notes = q.notes || '');
-                completedQuests.forEach(q => {
-                    q.notes = q.notes || '';
-                    q.completionDate = q.completionDate || null;
-                });
-
-                currentXP = parseInt(localStorage.getItem(LS_KEYS.XP)) || 0;
-                customLocation = localStorage.getItem(LS_KEYS.LOCATION) || '';
-                customLocationInput.value = customLocation; // Pre-fill input
-                currentLevel = calculateLevel(currentXP); // Recalculate level based on loaded XP
-                stats = JSON.parse(localStorage.getItem(LS_KEYS.STATS)) || { totalCompleted: 0, completedByType: {}, questsWithNotes: 0 };
-                achievementStatus = JSON.parse(localStorage.getItem(LS_KEYS.ACHIEVEMENTS)) || {};
-                currentTheme = localStorage.getItem(LS_KEYS.THEME) || 'default';
-                soundEnabled = localStorage.getItem(LS_KEYS.SOUND) !== 'false'; // Default to true
-
-                applyTheme(currentTheme); // Apply loaded theme
-                updateMuteButton(); // Set initial mute button state
-            } catch (e) {
-                console.error("Error loading data from local storage:", e);
-                // Reset to defaults if loading fails?
-                availableQuests = []; activeQuests = []; completedQuests = [];
-                currentXP = 0; currentLevel = 1; customLocation = '';
-                stats = { totalCompleted: 0, completedByType: {}, questsWithNotes: 0 };
-                achievementStatus = {}; currentTheme = 'default'; soundEnabled = true;
-            }
-        };
-
-        // --------------------------------------------------------------------------
-        // CORE QUEST LOGIC
-        // --------------------------------------------------------------------------
-
-        /**
-         * Generates a single random quest object based on templates and data.
-         * Incorporates custom location if provided.
-         * @param {string|null} [locationOverride=null] - A specific location to use, overriding the global customLocation.
-         * @returns {object} A quest object { id, text, scope, type, quirky, travelMode }.
-         */
-        const generateQuest = (locationOverride = null) => {
-            let template;
-            const useLocation = locationOverride || customLocation; // Use override or saved preference
-            let potentialTemplates = questData.templates;
-
-            // Filter out the specific {custom_location} template if no location is provided
-            if (!useLocation) {
-                potentialTemplates = potentialTemplates.filter(t => !t.structure.includes('{custom_location}'));
-            }
-
-            // If using a location, slightly prioritize templates that use a location placeholder
-            if (useLocation) {
-                const locationTemplates = potentialTemplates.filter(t =>
-                    t.structure.includes('{location_') || t.structure.includes('{custom_location}')
-                );
-                // 70% chance to pick a location-based template if available and applicable
-                if (Math.random() < 0.7 && locationTemplates.length > 0) {
-                     // Ensure we pick the specific custom template if applicable
-                     const customTemplate = locationTemplates.find(t => t.structure.includes('{custom_location}'));
-                     if (customTemplate && template.structure.includes('{custom_location}')) {
-                         template = customTemplate;
-                     } else {
-                         template = getRandomElement(locationTemplates);
-                     }
-                }
-            }
-
-            // If no template selected yet, pick from the available pool
-            if (!template) {
-                 // Ensure we don't accidentally pick the custom template if no location is set
-                 const validTemplates = !useLocation
-                    ? potentialTemplates.filter(t => !t.structure.includes('{custom_location}'))
-                    : potentialTemplates;
-
-                 if (validTemplates.length > 0) {
-                     template = getRandomElement(validTemplates);
-                 }
-            }
-
-             // Final fallback if template selection somehow failed
-             if (!template) {
-                 console.error("Error: Could not select a quest template. Using default.");
-                 template = { structure: "Observe something interesting nearby", scope: "Local", type: "General", quirky: 0, travelMode: "walk" };
-             }
-
-            let questText = template.structure;
-
-            /** Helper to get random element, potentially filtered */
-            const getFilteredElement = (key, filter) => {
-                 const list = questData[key];
-                 if (!list) return null; // Handle case where key might be missing
-                 if (!filter) return getRandomElement(list);
-                 const filteredList = list.filter(item => filter.includes(item));
-                 // Fallback to unfiltered list if filter yields nothing, but ensure list isn't empty
-                 return filteredList.length > 0 ? getRandomElement(filteredList) : (list.length > 0 ? getRandomElement(list) : null);
-            };
-
-            // Replace placeholders (Handle potential null from getFilteredElement gracefully)
-            questText = questText.replace('{action}', getFilteredElement('actions', template.actionFilter) || 'Observe');
-            questText = questText.replace('{object}', getFilteredElement('objects', template.objectFilter) || 'something interesting');
-            questText = questText.replace('{modifier}', getFilteredElement('modifiers', template.modifierFilter) || '');
-
-            // Handle location replacement logic carefully
-             if (useLocation && questText.includes('{custom_location}')) {
-                  questText = questText.replace('{custom_location}', useLocation);
-             } else if (useLocation && (questText.includes('{location_local}') || questText.includes('{location_regional}') || questText.includes('{location_epic}'))) {
-                 // If using custom location, replace *any* generic location placeholder
-                 questText = questText.replace(/\{(location_local|location_regional|location_epic)\}/g, useLocation);
-             } else {
-                 // Otherwise, replace specific placeholders with random ones or defaults
-                 questText = questText.replace('{location_local}', getFilteredElement('locations_local', template.locationFilter) || 'nearby');
-                 questText = questText.replace('{location_regional}', getFilteredElement('locations_regional', template.locationFilter) || 'regionally');
-                 questText = questText.replace('{location_epic}', getFilteredElement('locations_epic', template.locationFilter) || 'far away');
-             }
-
-             // Clean up potential extra spaces and capitalize
-             questText = questText.replace(/\s\s+/g, ' ').trim();
-             questText = questText.charAt(0).toUpperCase() + questText.slice(1);
-
-            // Determine final scope, marking as 'Custom' if appropriate
-            const finalScope = useLocation && (template.structure.includes('{location_') || template.structure.includes('{custom_location}')) ? 'Custom' : template.scope;
-
-            // Return the final quest object
-            return {
-                id: Date.now() + Math.random(), // Simple unique ID
-                text: questText,
-                scope: finalScope || 'Local', // Default scope if undefined
-                type: template.type || "General", // Default type
-                quirky: template.quirky >= 2,
-                travelMode: template.travelMode || "walk" // Default travel mode
-            };
-         };
-
-        /**
-         * Generates a new set of available quests, applying filters if selected.
-         * Updates the UI and saves the state.
-         */
+        // --- Core Logic ---
+        const generateQuest = (locationOverride = null) => { /* ... (same as v10.6) ... */ let template; const useLocation = locationOverride || customLocation; let potentialTemplates = questData.templates; if (!useLocation) { potentialTemplates = potentialTemplates.filter(t => !t.structure.includes('{custom_location}')); } if (useLocation) { const locationTemplates = potentialTemplates.filter(t => t.structure.includes('{location_') || t.structure.includes('{custom_location}')); if (Math.random() < 0.7 && locationTemplates.length > 0) { const customTemplate = locationTemplates.find(t => t.structure.includes('{custom_location}')); if (customTemplate && template.structure.includes('{custom_location}')) { template = customTemplate; } else { template = getRandomElement(locationTemplates); } } } if (!template) { const validTemplates = !useLocation ? potentialTemplates.filter(t => !t.structure.includes('{custom_location}')) : potentialTemplates; if (validTemplates.length > 0) { template = getRandomElement(validTemplates); } } if (!template) { console.error("Error: Could not select a quest template. Using default."); template = { structure: "Observe something interesting nearby", scope: "Local", type: "General", quirky: 0, travelMode: "walk" }; } let questText = template.structure; const getFilteredElement = (key, filter) => { const list = questData[key]; if (!list) return null; if (!filter) return getRandomElement(list); const filteredList = list.filter(item => filter.includes(item)); return filteredList.length > 0 ? getRandomElement(filteredList) : (list.length > 0 ? getRandomElement(list) : null); }; questText = questText.replace('{action}', getFilteredElement('actions', template.actionFilter) || 'Observe'); questText = questText.replace('{object}', getFilteredElement('objects', template.objectFilter) || 'something interesting'); questText = questText.replace('{modifier}', getFilteredElement('modifiers', template.modifierFilter) || ''); if (useLocation && questText.includes('{custom_location}')) { questText = questText.replace('{custom_location}', useLocation); } else if (useLocation && (questText.includes('{location_local}') || questText.includes('{location_regional}') || questText.includes('{location_epic}'))) { questText = questText.replace(/\{(location_local|location_regional|location_epic)\}/g, useLocation); } else { questText = questText.replace('{location_local}', getFilteredElement('locations_local', template.locationFilter) || 'nearby'); questText = questText.replace('{location_regional}', getFilteredElement('locations_regional', template.locationFilter) || 'regionally'); questText = questText.replace('{location_epic}', getFilteredElement('locations_epic', template.locationFilter) || 'far away'); } questText = questText.replace(/\s\s+/g, ' ').trim(); questText = questText.charAt(0).toUpperCase() + questText.slice(1); const finalScope = useLocation && (template.structure.includes('{location_') || template.structure.includes('{custom_location}')) ? 'Custom' : template.scope; return { id: Date.now() + Math.random(), text: questText, scope: finalScope || 'Local', type: template.type || "General", quirky: template.quirky >= 2, travelMode: template.travelMode || "walk" }; };
+        /** Generates a new set of available quests, applying filters */
         const generateNewSet = () => {
-            customLocation = customLocationInput.value.trim(); // Get current custom location
-            availableQuests = []; // Clear previous available quests
-            const numToShow = 3 + Math.floor(Math.random() * 3); // Target 3-5 quests
-            const numToGenerate = 25; // Generate a larger pool to increase filtering success chance
-            const generatedPool = [];
+            console.log("generateNewSet called"); // DEBUG
+            try {
+                customLocation = customLocationInput.value.trim();
+                availableQuests = []; // Clear previous available quests
+                const numToShow = 3 + Math.floor(Math.random() * 3); // Target 3-5 quests
+                const numToGenerate = 25; // Generate a larger pool
+                const generatedPool = [];
+                console.log(`Generating pool of ${numToGenerate} quests...`); // DEBUG
 
-            // Generate initial pool of quests
-            for (let i = 0; i < numToGenerate; i++) {
-                generatedPool.push(generateQuest());
-            }
-
-            // Apply selected Type Filters
-            const activeFilters = getActiveFilters();
-            let potentialQuests = generatedPool;
-            if (activeFilters.length > 0) {
-                potentialQuests = generatedPool.filter(quest => activeFilters.includes(quest.type || "General"));
-                console.log(`Filtered pool size: ${potentialQuests.length}`);
-            }
-
-            // Select quests, prioritizing filtered ones, ensuring variety if possible
-            if (potentialQuests.length >= numToShow) {
-                 // Shuffle and take the target number if enough quests match filters
-                 availableQuests = potentialQuests.sort(() => 0.5 - Math.random()).slice(0, numToShow);
-            } else {
-                 // Not enough filtered quests, take all that match
-                 availableQuests = [...potentialQuests];
-                 // Fill the remaining slots with *unfiltered* quests from the original pool
-                 // to ensure we reach the target number of quests shown
-                 const needed = numToShow - availableQuests.length;
-                 if (needed > 0) {
-                     // Get quests from the original pool that weren't already selected
-                     const fallbackQuests = generatedPool.filter(q => !availableQuests.some(aq => aq.id === q.id));
-                     availableQuests.push(...fallbackQuests.sort(() => 0.5 - Math.random()).slice(0, needed)); // Add random fallbacks
-                 }
-            }
-
-            // Final check if something went wrong and availableQuests is still empty
-             if (availableQuests.length === 0 && generatedPool.length > 0) {
-                 availableQuests = generatedPool.slice(0, numToShow); // Fallback to unfiltered pool
-                 console.warn("Filtering resulted in zero quests, showing unfiltered quests.");
-             } else if (availableQuests.length === 0) {
-                 console.error("Failed to generate any quests.");
-                 // Optionally display an error message or a default placeholder quest
-             }
-
-            playSound('generate'); // Play sound effect
-            renderUI(); // Render the new list
-            saveData(); // Save the new state
-        };
-
-        /**
-         * Replaces a specific available quest with a new one.
-         * @param {number} id - The ID of the quest to reroll.
-         */
-        const rerollQuest = (id) => {
-             const questIndex = availableQuests.findIndex(q => q.id === id);
-             if (questIndex > -1) {
-                 availableQuests[questIndex] = generateQuest(customLocation || null); // Generate replacement
-                 playSound('reroll');
-                 renderUI(); // Re-render the lists
-                 saveData(); // Save the updated available quests
-             }
-         };
-
-        /**
-         * Moves a quest from the available list to the active list.
-         * Initializes the notes property.
-         * @param {number} id - The ID of the quest to accept.
-         */
-        const acceptQuest = (id) => {
-            const questIndex = availableQuests.findIndex(q => q.id === id);
-            if (questIndex > -1) {
-                const [questToMove] = availableQuests.splice(questIndex, 1);
-                questToMove.notes = ''; // Initialize notes property
-                activeQuests.push(questToMove);
-                playSound('accept');
-                renderUI();
-                saveData();
-            }
-        };
-
-        /**
-         * Checks if any achievements have been newly earned based on current stats and level.
-         * Triggers alerts and sounds for newly earned achievements.
-         * Updates the achievement display if necessary.
-         */
-         const checkAchievements = () => {
-             let newlyEarnedAchievement = null; // Store the first newly earned achievement in this check cycle
-             // Recalculate stats that might change indirectly (like quests with notes)
-             stats.questsWithNotes = completedQuests.filter(q => q.notes && q.notes.trim() !== '').length;
-
-             // Iterate through all defined achievements
-             for (const id in achievements) {
-                 // Only check if not previously marked as earned in our state
-                 if (!achievementStatus[id]) {
-                     const achievement = achievements[id];
-                     // Check if the criteria function returns true
-                     if (achievement.criteria(stats, currentLevel)) {
-                         achievementStatus[id] = true; // Mark as earned in current state
-                         if (!newlyEarnedAchievement) { // Capture the *first* one earned in this check
-                             newlyEarnedAchievement = achievement;
-                         }
-                         console.log(`Achievement Earned: ${achievement.name}`);
-                     }
-                 }
-             }
-
-             // If any achievement was newly earned in this cycle...
-             if (newlyEarnedAchievement) {
-                 showAchievementAlert(newlyEarnedAchievement.name, newlyEarnedAchievement.icon); // Show visual alert
-                 playSound('achievement'); // Play sound
-                 saveData(); // Save the updated achievement status immediately
-             }
-
-             // Re-render the achievements list if it's the current page OR if a new one was earned
-             if (newlyEarnedAchievement || currentPage === 'achievements-page') {
-                 renderAchievements();
-             }
-         };
-
-        /**
-         * Moves a quest from the active list to the completed list.
-         * Adds completion date, updates stats, calculates XP/level, checks achievements.
-         * @param {number} id - The ID of the quest to complete.
-         */
-        const completeQuest = (id) => {
-             const questIndex = activeQuests.findIndex(q => q.id === id);
-             if (questIndex > -1) {
-                 const oldLevel = currentLevel; // Store level before XP gain
-                 const [questToMove] = activeQuests.splice(questIndex, 1);
-
-                 // Create the completed quest object, ensuring notes and adding date
-                 const completedQuestData = {
-                     text: questToMove.text, scope: questToMove.scope, type: questToMove.type || 'General',
-                     quirky: questToMove.quirky, travelMode: questToMove.travelMode, notes: questToMove.notes || '',
-                     completionDate: new Date().toISOString() // Add completion timestamp
-                 };
-                 completedQuests.push(completedQuestData);
-
-                 // --- Update Stats ---
-                 stats.totalCompleted = (stats.totalCompleted || 0) + 1;
-                 const questType = completedQuestData.type; // Use the type from the completed data
-                 stats.completedByType[questType] = (stats.completedByType[questType] || 0) + 1;
-                 // Note: questsWithNotes count is updated within checkAchievements
-
-                 // --- XP Calculation ---
-                 let xpGained = 0;
-                 const scopeForXp = completedQuestData.scope === 'Custom' ? 'Local' : completedQuestData.scope; // Treat Custom as Local for XP
-                 switch (scopeForXp) {
-                     case 'Local': xpGained = 10; break;
-                     case 'Regional': xpGained = 30; break;
-                     case 'Epic': xpGained = 100; break;
-                     default: xpGained = 10;
-                 }
-                 if (completedQuestData.quirky) xpGained += 5; // Quirky bonus
-                 currentXP += xpGained;
-                 currentLevel = calculateLevel(currentXP); // Recalculate level
-
-                 // --- Post-Completion Actions ---
-                 checkAchievements(); // Check achievements *after* stats/level update
-
-                 // Check for level up and show alert/play sound
-                 if (currentLevel > oldLevel) {
-                     showLevelUpAlert(currentLevel);
-                     playSound('levelUp');
-                 } else {
-                     playSound('complete'); // Play standard completion sound
-                 }
-
-                 renderUI(); // Update the display
-                 saveData(); // Save all changes
-             }
-         };
-
-        /**
-         * Updates the notes for a specific quest in either the active or completed list.
-         * @param {number} id - The ID of the quest to update.
-         * @param {string} newNotes - The new notes text.
-         */
-        const updateNotes = (id, newNotes) => {
-            let quest = activeQuests.find(q => q.id === id);
-            let listChanged = 'active';
-            if (quest) {
-                quest.notes = newNotes;
-            } else {
-                quest = completedQuests.find(q => q.id === id);
-                if (quest) {
-                    quest.notes = newNotes;
-                    listChanged = 'completed';
+                // Generate initial pool of quests
+                for (let i = 0; i < numToGenerate; i++) {
+                    const newQuest = generateQuest();
+                    if(newQuest) { // Ensure quest generation didn't fail
+                        generatedPool.push(newQuest);
+                    } else {
+                        console.error("generateQuest returned null/undefined during pool generation");
+                    }
                 }
+                console.log(`Generated pool size: ${generatedPool.length}`); // DEBUG
+
+                // Apply selected Type Filters
+                const activeFilters = getActiveFilters();
+                console.log("Active filters:", activeFilters); // DEBUG
+                let potentialQuests = generatedPool;
+                if (activeFilters.length > 0) {
+                    potentialQuests = generatedPool.filter(quest => activeFilters.includes(quest.type || "General"));
+                    console.log(`Filtered pool size: ${potentialQuests.length}`); // DEBUG
+                } else {
+                    console.log("No filters active, using full pool."); // DEBUG
+                    potentialQuests = generatedPool;
+                }
+
+                // Select quests, prioritizing filtered ones, ensuring variety if possible
+                if (potentialQuests.length >= numToShow) {
+                    // Shuffle and take the target number if enough quests match filters
+                    availableQuests = potentialQuests.sort(() => 0.5 - Math.random()).slice(0, numToShow);
+                } else {
+                    // Not enough filtered quests, take all that match
+                    availableQuests = [...potentialQuests];
+                    // Fill the remaining slots with *unfiltered* quests from the original pool
+                    const needed = numToShow - availableQuests.length;
+                    if (needed > 0) {
+                        console.log(`Not enough filtered quests, needing ${needed} more.`); // DEBUG
+                        // Get quests from the original pool that weren't already selected
+                        const fallbackQuests = generatedPool.filter(q => !availableQuests.some(aq => aq.id === q.id));
+                        availableQuests.push(...fallbackQuests.sort(() => 0.5 - Math.random()).slice(0, needed)); // Add random fallbacks
+                    }
+                }
+                console.log(`Final availableQuests size: ${availableQuests.length}`); // DEBUG
+                // console.log("Final availableQuests:", JSON.stringify(availableQuests)); // DEBUG (can be verbose)
+
+
+                // Final check if something went wrong and availableQuests is still empty
+                 if (availableQuests.length === 0 && generatedPool.length > 0) {
+                     availableQuests = generatedPool.slice(0, numToShow); // Fallback to unfiltered pool
+                     console.warn("Filtering resulted in zero quests, showing unfiltered quests.");
+                 } else if (availableQuests.length === 0) {
+                     console.error("Failed to generate any quests to display.");
+                 }
+
+                playSound('generate'); // Play sound effect
+                renderUI(); // Render the new list
+                saveData(); // Save the new state
+                console.log("generateNewSet finished."); // DEBUG
+            } catch (error) {
+                console.error("Error occurred in generateNewSet:", error); // Catch any unexpected errors
+                // Optionally display an error message to the user
+                availableList.innerHTML = '<p class="text-red-600 font-bold">Error generating quests. Please check console (F12) and report the error.</p>';
             }
-            // If a quest was found and updated
-            if (quest) {
-                 console.log(`Notes updated for quest ${id} in ${listChanged} list.`);
-                 checkAchievements(); // Check if adding notes triggered an achievement
-                 saveData(); // Save changes after updating notes and achievements
-            } else {
-                 console.warn(`Could not find quest with ID ${id} to update notes.`);
-            }
-         };
+        };
+        /** Replaces a specific available quest */
+        const rerollQuest = (id) => { /* ... (same as v10) ... */ const questIndex = availableQuests.findIndex(q => q.id === id); if (questIndex > -1) { availableQuests[questIndex] = generateQuest(customLocation || null); playSound('reroll'); renderUI(); saveData(); } };
+        /** Moves quest from Available to Active */
+        const acceptQuest = (id) => { /* ... (same as v10) ... */ const questIndex = availableQuests.findIndex(q => q.id === id); if (questIndex > -1) { const [questToMove] = availableQuests.splice(questIndex, 1); questToMove.notes = ''; activeQuests.push(questToMove); playSound('accept'); renderUI(); saveData(); } };
+        /** Checks for and updates achievement status */
+        const checkAchievements = () => { /* ... (same as v10.3) ... */
+             let newlyEarnedAchievement = null;
+             stats.questsWithNotes = completedQuests.filter(q => q.notes && q.notes.trim() !== '').length;
+             for (const id in achievements) { if (!achievementStatus[id]) { const achievement = achievements[id]; if (achievement.criteria(stats, currentLevel)) { achievementStatus[id] = true; if (!newlyEarnedAchievement) { newlyEarnedAchievement = achievement; } console.log(`Achievement Earned: ${achievement.name}`); } } }
+             if (newlyEarnedAchievement) { showAchievementAlert(newlyEarnedAchievement.name, newlyEarnedAchievement.icon); playSound('achievement'); saveData(); } // Save status when earned
+             if (newlyEarnedAchievement || currentPage === 'achievements-page') { renderAchievements(); } };
+        /** Moves quest from Active to Completed, updates stats/XP/level, checks achievements */
+        const completeQuest = (id) => { /* ... (same as v10) ... */ const questIndex = activeQuests.findIndex(q => q.id === id); if (questIndex > -1) { const oldLevel = currentLevel; const [questToMove] = activeQuests.splice(questIndex, 1); const completedQuestData = { text: questToMove.text, scope: questToMove.scope, type: questToMove.type || 'General', quirky: questToMove.quirky, travelMode: questToMove.travelMode, notes: questToMove.notes || '', completionDate: new Date().toISOString() }; completedQuests.push(completedQuestData); stats.totalCompleted = (stats.totalCompleted || 0) + 1; const questType = completedQuestData.type; stats.completedByType[questType] = (stats.completedByType[questType] || 0) + 1; let xpGained = 0; const scopeForXp = completedQuestData.scope === 'Custom' ? 'Local' : completedQuestData.scope; switch (scopeForXp) { case 'Local': xpGained = 10; break; case 'Regional': xpGained = 30; break; case 'Epic': xpGained = 100; break; default: xpGained = 10; } if (completedQuestData.quirky) xpGained += 5; currentXP += xpGained; currentLevel = calculateLevel(currentXP); checkAchievements(); if (currentLevel > oldLevel) { showLevelUpAlert(currentLevel); playSound('levelUp'); } else { playSound('complete'); } renderUI(); saveData(); } };
+        /** Updates notes for a quest */
+        const updateNotes = (id, newNotes) => { /* ... (same as v10) ... */ let quest = activeQuests.find(q => q.id === id); let listChanged = 'active'; if (quest) { quest.notes = newNotes; } else { quest = completedQuests.find(q => q.id === id); if (quest) { quest.notes = newNotes; listChanged = 'completed'; } } if (quest) { console.log(`Notes updated for quest ${id} in ${listChanged} list.`); checkAchievements(); saveData(); } else { console.warn(`Could not find quest with ID ${id} to update notes.`); } };
 
         // --------------------------------------------------------------------------
         // ALERT POPUPS
         // --------------------------------------------------------------------------
-
-        /**
-         * Displays the level up alert message briefly.
-         * @param {number} level - The level the user reached.
-         */
-        const showLevelUpAlert = (level) => {
-            const newTitle = getTitleForLevel(level);
-            levelUpAlert.textContent = `Level Up! Reached Level ${level}: ${newTitle}!`;
-            levelUpAlert.classList.add('show');
-            setTimeout(() => { levelUpAlert.classList.remove('show'); }, 3500); // Hide after 3.5 seconds
-        };
-
-        /**
-         * Displays the achievement unlocked alert message briefly.
-         * Declared with 'let' to allow mocking in self-tests.
-         * @param {string} name - The name of the achievement.
-         * @param {string} icon - The icon of the achievement.
-         */
-        let showAchievementAlert = (name, icon) => {
-             achievementAlert.innerHTML = `${icon} Achievement Unlocked: ${name}!`; // Use innerHTML to render icon
-             achievementAlert.classList.add('show');
-             setTimeout(() => {
-                 achievementAlert.classList.remove('show');
-             }, 3500); // Hide after 3.5 seconds
-         };
+        /** Displays level up alert */
+        const showLevelUpAlert = (level) => { /* ... (same as v8) ... */ const newTitle = getTitleForLevel(level); levelUpAlert.textContent = `Level Up! Reached Level ${level}: ${newTitle}!`; levelUpAlert.classList.add('show'); setTimeout(() => { levelUpAlert.classList.remove('show'); }, 3500); };
+        /** Displays achievement alert */
+        let showAchievementAlert = (name, icon) => { /* ... (same as v10.3) ... */ achievementAlert.innerHTML = `${icon} Achievement Unlocked: ${name}!`; achievementAlert.classList.add('show'); setTimeout(() => { achievementAlert.classList.remove('show'); }, 3500); };
 
 
         // --------------------------------------------------------------------------
         // UI RENDERING FUNCTIONS
         // --------------------------------------------------------------------------
-
-        /**
-         * Gets the appropriate travel mode emoji icon based on the mode string.
-         * @param {string} mode - The travel mode string (e.g., "walk", "walk_bike_bus").
-         * @returns {string} The corresponding emoji or empty string.
-         */
-        const getTravelIcon = (mode) => {
-            if (!mode) return '';
-            // Prioritize more significant travel modes if multiple are listed
-            if (mode.includes('plane')) return '✈️';
-            if (mode.includes('train')) return '🚆';
-            if (mode.includes('car')) return '🚗';
-            if (mode.includes('bus')) return '🚌';
-            if (mode.includes('bike')) return '🚲';
-            if (mode.includes('walk')) return '🚶';
-            return ''; // Default no icon
-        };
-
-        /**
-         * Creates the HTML element for a single quest card.
-         * @param {object} quest - The quest object.
-         * @param {string} type - The type of list ('available', 'active', 'completed').
-         * @returns {HTMLElement} The generated card element.
-         */
-        const createQuestCard = (quest, type) => {
-             const card = document.createElement('div');
-             card.className = `quest-card ${quest.notes ? 'pb-4' : ''}`; // Add padding if notes exist
-             // Animation setup
-             card.style.opacity = '0';
-             card.style.transform = 'translateY(10px)';
-             card.style.transition = 'opacity 0.3s ease-out, transform 0.3s ease-out';
-
-             // --- Quest Info Div (Text, Tags, Date) ---
-             const infoDiv = document.createElement('div');
-             let scopeClass = ''; let scopeText = quest.scope;
-             switch (quest.scope) { case 'Local': scopeClass = 'scope-local'; break; case 'Regional': scopeClass = 'scope-regional'; break; case 'Epic': scopeClass = 'scope-epic'; break; case 'Custom': scopeClass = 'scope-custom'; scopeText = 'Custom Loc.'; break; default: scopeClass = 'scope-local'; }
-             let typeClass = ''; let typeText = quest.type || 'General';
-             switch (typeText) { case 'Social': typeClass = 'scope-social'; break; case 'Creative': typeClass = 'scope-creative'; break; case 'Kindness': typeClass = 'scope-kindness'; break; case 'Exploration': typeClass = 'scope-regional'; break; case 'Learning': typeClass = 'scope-quirky'; break; }
-             const quirkyClass = quest.quirky ? 'scope-quirky' : '';
-             const travelIcon = getTravelIcon(quest.travelMode);
-
-             infoDiv.innerHTML = `
-                 <p class="text-gray-800 mb-2 text-sm">${quest.text}</p>
-                 <div>
-                     ${travelIcon ? `<span class="travel-icon" title="Travel Mode: ${quest.travelMode.replace(/_/g, '/')}">${travelIcon}</span>` : ''}
-                     <span class="scope-tag ${scopeClass}">${scopeText}</span>
-                     ${typeClass ? `<span class="scope-tag ${typeClass}">${typeText}</span>` : ''}
-                     ${quest.quirky ? `<span class="scope-tag ${quirkyClass}">Quirky</span>` : ''}
-                 </div>
-                 ${type === 'completed' && quest.completionDate ? `<p class="completion-date">Completed: ${formatDate(quest.completionDate)}</p>` : ''}
-             `;
-             card.appendChild(infoDiv);
-
-             // --- Notes Area (Only for Active/Completed) ---
-             let notesArea = null;
-             let notesDisplayStatic = null; // Separate variable for static display
-             if (type === 'active' || type === 'completed') {
-                 // Container for static display (shown when not editing)
-                 notesDisplayStatic = document.createElement('div');
-                 notesDisplayStatic.className = 'notes-display';
-                 notesDisplayStatic.textContent = quest.notes || ''; // Show existing notes
-                 notesDisplayStatic.style.display = quest.notes ? 'block' : 'none'; // Show only if notes exist
-
-                 // Container for editing area (shown when editing)
-                 notesArea = document.createElement('div');
-                 notesArea.className = 'notes-area hidden'; // Start hidden
-
-                 const notesTextarea = document.createElement('textarea');
-                 notesTextarea.className = 'notes-textarea';
-                 notesTextarea.placeholder = 'Add your travel journal notes here...';
-                 notesTextarea.value = quest.notes || '';
-                 notesTextarea.setAttribute('aria-label', `Journal notes for quest: ${quest.text}`);
-                 // Save notes when the textarea loses focus
-                 notesTextarea.onblur = () => {
-                     const newNotes = notesTextarea.value;
-                     updateNotes(quest.id, newNotes);
-                     // Update static display immediately and hide textarea
-                     notesDisplayStatic.textContent = newNotes;
-                     notesDisplayStatic.style.display = newNotes ? 'block' : 'none';
-                     notesArea.classList.add('hidden');
-                     // Ensure the toggle button's aria-expanded state is correct after blur
-                     const toggleButton = card.querySelector('.button-notes');
-                     if(toggleButton) toggleButton.setAttribute('aria-expanded', 'false');
-                 };
-                 notesArea.appendChild(notesTextarea);
-
-                 card.appendChild(notesDisplayStatic); // Add static display first
-                 card.appendChild(notesArea); // Add hidden edit area after
-             }
-
-
-            // --- Buttons Div ---
-            const buttonsDiv = document.createElement('div');
-            buttonsDiv.className = 'mt-3 flex gap-2 justify-end items-center flex-wrap'; // Buttons wrap on small screens
-
-             // Notes Button (Active/Completed)
-             if (notesArea && notesDisplayStatic) { // Check if notes elements were created
-                 const toggleNotesButton = document.createElement('button');
-                 toggleNotesButton.innerHTML = '📝 Notes'; // Emoji for icon
-                 toggleNotesButton.title = "Add/Edit Journal Notes";
-                 toggleNotesButton.className = 'quest-button button-notes text-xs px-2 py-1 mr-auto'; // Push to left
-                 toggleNotesButton.setAttribute('aria-expanded', 'false'); // Initial state
-                 toggleNotesButton.onclick = (e) => {
-                     e.stopPropagation();
-                     const isNowHidden = notesArea.classList.toggle('hidden'); // Toggle textarea visibility
-                     // Toggle static display visibility based on textarea state and if notes exist
-                     notesDisplayStatic.style.display = isNowHidden ? (quest.notes ? 'block' : 'none') : 'none';
-                     toggleNotesButton.setAttribute('aria-expanded', String(!isNowHidden)); // Update ARIA state
-                     // Focus textarea when shown
-                     if (!isNowHidden) {
-                         notesArea.querySelector('textarea').focus();
-                     }
-                 };
-                 buttonsDiv.appendChild(toggleNotesButton);
-             }
-
-             // Share Button (Available/Completed)
-             if (type === 'available' || type === 'completed') {
-                 const shareButton = document.createElement('button');
-                 shareButton.innerHTML = '🔗 Share';
-                 shareButton.title = "Copy Quest Text";
-                 shareButton.className = 'quest-button button-share text-xs px-2 py-1';
-                 shareButton.onclick = async (e) => {
-                     e.stopPropagation();
-                     try {
-                         await navigator.clipboard.writeText(quest.text);
-                         shareButton.textContent = 'Copied!';
-                         setTimeout(() => { shareButton.innerHTML = '🔗 Share'; }, 1500);
-                     } catch (err) {
-                         console.error('Failed to copy quest text: ', err);
-                         shareButton.textContent = 'Error';
-                         setTimeout(() => { shareButton.innerHTML = '🔗 Share'; }, 1500);
-                     }
-                 };
-                 buttonsDiv.appendChild(shareButton); // Add to the end (right side)
-             }
-
-            // Other Action Buttons (Reroll, Accept, Complete)
-            if (type === 'available') {
-                const rerollButton = document.createElement('button'); rerollButton.textContent = 'Reroll'; rerollButton.className = 'quest-button button-reroll text-xs px-2 py-1'; rerollButton.onclick = (e) => { e.stopPropagation(); rerollQuest(quest.id); }; buttonsDiv.appendChild(rerollButton);
-                const acceptButton = document.createElement('button'); acceptButton.textContent = 'Accept'; acceptButton.className = 'quest-button button-secondary text-sm px-3 py-1'; acceptButton.onclick = (e) => { e.stopPropagation(); acceptQuest(quest.id); }; buttonsDiv.appendChild(acceptButton);
-            } else if (type === 'active') {
-                const completeButton = document.createElement('button'); completeButton.textContent = 'Complete'; completeButton.className = 'quest-button button-tertiary text-sm px-3 py-1'; completeButton.onclick = (e) => { e.stopPropagation(); completeQuest(quest.id); }; buttonsDiv.appendChild(completeButton);
-            }
-
-            // Append buttons div if it has content
-            if (buttonsDiv.children.length > 0) {
-                 card.appendChild(buttonsDiv);
-            }
-
-             // Trigger fade-in animation shortly after appending
-             requestAnimationFrame(() => {
-                 setTimeout(() => {
-                     card.style.opacity = '1';
-                     card.style.transform = 'translateY(0)';
-                 }, 10); // Small delay ensures transition works
-             });
-
-            return card;
-        };
-
-        /**
-         * Updates the profile section (Level, Title, XP bar).
-         */
-        const renderProfile = () => {
-            const nextLevelXP = xpForNextLevel(currentLevel);
-            const xpIntoCurrentLevel = calculateRemainingXp(currentXP);
-            const currentTitle = getTitleForLevel(currentLevel);
-
-            levelDisplay.textContent = currentLevel;
-            profileTitleDisplay.textContent = currentTitle;
-            xpDisplay.textContent = Math.floor(xpIntoCurrentLevel);
-            xpNextDisplay.textContent = Math.ceil(nextLevelXP);
-
-            const progressPercent = nextLevelXP > 0 ? Math.min(100, (xpIntoCurrentLevel / nextLevelXP) * 100) : 0;
-            xpProgress.style.width = `${progressPercent}%`;
-            // Update ARIA attributes for progress bar
-            xpProgress.setAttribute('aria-valuenow', Math.floor(progressPercent));
-            xpProgress.setAttribute('aria-valuemax', 100); // Assuming max is 100%
-        };
-
-        /**
-         * Renders the dedicated Travel Journal page with noted, completed quests.
-         */
-        const renderJournalPage = () => {
-             journalList.innerHTML = ''; // Clear previous entries
-             const journalQuests = completedQuests
-                 .filter(quest => quest.notes && quest.notes.trim() !== '') // Filter for quests with notes
-                 .sort((a, b) => new Date(b.completionDate) - new Date(a.completionDate)); // Sort by date descending
-
-             if (journalQuests.length === 0) {
-                 journalList.innerHTML = '<p class="italic text-center">Complete quests and add notes to see your journal entries!</p>';
-                 return;
-             }
-
-             journalQuests.forEach(quest => {
-                 const entryDiv = document.createElement('div');
-                 entryDiv.className = 'journal-entry';
-                 // Sanitize notes before inserting as HTML if needed, but textContent is safer for display
-                 const notesContentDiv = document.createElement('div');
-                 notesContentDiv.className = 'notes-content';
-                 notesContentDiv.textContent = quest.notes; // Use textContent for safety
-
-                 entryDiv.innerHTML = `
-                     <p class="quest-text">${quest.text}</p>
-                     <p class="completion-date">Completed: ${formatDate(quest.completionDate)}</p>
-                 `;
-                 entryDiv.appendChild(notesContentDiv); // Append notes safely
-                 journalList.appendChild(entryDiv);
-             });
-         };
-
-        /**
-         * Renders the Achievements page, showing earned and unearned achievements.
-         */
-        const renderAchievements = () => {
-              achievementsListContainer.innerHTML = ''; // Clear existing
-              // Ensure achievementStatus reflects saved data before rendering
-              for(const id in achievementStatus){
-                  if(achievements[id]) achievements[id].earned = true; // Update local definition based on saved status
-              }
-
-              // Sort or order achievements (e.g., earned first)
-              const sortedIds = Object.keys(achievements).sort((a, b) => {
-                  const earnedA = achievementStatus[a] || false;
-                  const earnedB = achievementStatus[b] || false;
-                  if (earnedA === earnedB) return 0; // Keep original order if same status
-                  return earnedA ? -1 : 1; // Earned first
-              });
-
-
-              if (sortedIds.length === 0) {
-                  achievementsListContainer.innerHTML = '<p class="italic text-center">No achievements defined yet.</p>';
-                  return;
-              }
-
-              sortedIds.forEach(id => {
-                  const achievement = achievements[id];
-                  const isEarned = achievementStatus[id] || false; // Check current status
-                  const li = document.createElement('li');
-                  li.className = `achievement-item ${isEarned ? 'earned' : ''}`;
-                  li.innerHTML = `
-                      <span class="achievement-icon" aria-hidden="true">${achievement.icon}</span>
-                      <div class="achievement-details">
-                          <h4>${achievement.name}</h4>
-                          <p>${achievement.description}</p>
-                      </div>
-                  `;
-                  achievementsListContainer.appendChild(li);
-              });
-          };
-
-        /**
-         * Renders the filter checkboxes based on available quest types.
-         */
-        const renderFilterOptions = () => {
-            filterOptionsContainer.innerHTML = ''; // Clear existing
-            const types = getQuestTypes();
-            types.sort().forEach(type => {
-                const wrapper = document.createElement('div');
-                const checkboxId = `filter-${type.toLowerCase().replace(/\s+/g, '-')}`;
-                // Ensure unique IDs and correct label association
-                wrapper.innerHTML = `
-                    <input type="checkbox" id="${checkboxId}" name="questTypeFilter" value="${type}" class="filter-checkbox">
-                    <label for="${checkboxId}">${type}</label>
-                `;
-                filterOptionsContainer.appendChild(wrapper);
-            });
-        };
-
-        /**
-         * Gets the currently selected filter types.
-         * @returns {string[]} An array of selected quest type strings.
-         */
-        const getActiveFilters = () => {
-             const checkboxes = filterOptionsContainer.querySelectorAll('input[type="checkbox"]:checked');
-             return Array.from(checkboxes).map(cb => cb.value);
-         };
-
-        /**
-         * Extracts all unique quest types from the templates.
-         * @returns {string[]} An array of unique quest type strings.
-         */
-        const getQuestTypes = () => {
-             const types = new Set(questData.templates.map(t => t.type || "General"));
-             return Array.from(types);
-         };
-
-        /**
-         * Renders the main quest lists (Available, Active, Completed).
-         * Also triggers rendering of Journal or Achievements if those pages are active.
-         */
-        const renderLists = () => {
-            // Clear main quest lists
-            availableList.innerHTML = ''; activeList.innerHTML = ''; completedList.innerHTML = '';
-
-            // Render Available Quests or placeholder
-            if (availableQuests.length === 0 && currentPage === 'quest-log-page') {
-                availableList.innerHTML = '<p class="italic text-sm">Enter location/filters and click "Generate Quests"!</p>';
-            } else {
-                availableQuests.forEach(quest => availableList.appendChild(createQuestCard(quest, 'available')));
-            }
-
-            // Render Active Quests or placeholder
-            if (activeQuests.length === 0 && currentPage === 'quest-log-page') {
-                activeList.innerHTML = '<p class="italic text-sm">No active quests.</p>';
-            } else {
-                activeQuests.forEach(quest => activeList.appendChild(createQuestCard(quest, 'active')));
-            }
-
-            // Render Completed Quests or placeholder
-            if (completedQuests.length === 0 && currentPage === 'quest-log-page') {
-                completedList.innerHTML = '<p class="italic text-sm">No quests completed yet.</p>';
-            } else {
-                // Sort completed quests by date before rendering the main list too
-                completedQuests
-                    .sort((a, b) => new Date(b.completionDate || 0) - new Date(a.completionDate || 0)) // Handle potential null dates
-                    .forEach(quest => completedList.appendChild(createQuestCard(quest, 'completed')));
-            }
-
-            // Render other pages if active (Journal content is rendered within this function)
-             if (currentPage === 'journal-page') { renderJournalPage(); }
-             if (currentPage === 'achievements-page') { renderAchievements(); }
-         };
-
-        /**
-         * Main UI render function, updates profile and lists.
-         */
-        const renderUI = () => {
-            renderProfile();
-            renderLists(); // Handles rendering all lists/pages based on currentPage
-        }
+        /** Gets travel mode emoji */
+        const getTravelIcon = (mode) => { /* ... (same as v8) ... */ if (!mode) return ''; if (mode.includes('plane')) return '✈️'; if (mode.includes('train')) return '🚆'; if (mode.includes('bus')) return '🚌'; if (mode.includes('car')) return '🚗'; if (mode.includes('bike')) return '🚲'; if (mode.includes('walk')) return '🚶'; return ''; };
+        /** Creates HTML for a single quest card */
+        const createQuestCard = (quest, type) => { /* ... (same as v10.2) ... */
+             const card = document.createElement('div'); card.className = `quest-card ${quest.notes ? 'pb-4' : ''}`; card.style.opacity = '0'; card.style.transform = 'translateY(10px)'; card.style.transition = 'opacity 0.3s ease-out, transform 0.3s ease-out';
+             const infoDiv = document.createElement('div'); let scopeClass = ''; let scopeText = quest.scope; switch (quest.scope) { case 'Local': scopeClass = 'scope-local'; break; case 'Regional': scopeClass = 'scope-regional'; break; case 'Epic': scopeClass = 'scope-epic'; break; case 'Custom': scopeClass = 'scope-custom'; scopeText = 'Custom Loc.'; break; default: scopeClass = 'scope-local'; } let typeClass = ''; let typeText = quest.type || 'General'; switch (typeText) { case 'Social': typeClass = 'scope-social'; break; case 'Creative': typeClass = 'scope-creative'; break; case 'Kindness': typeClass = 'scope-kindness'; break; case 'Exploration': typeClass = 'scope-regional'; break; case 'Learning': typeClass = 'scope-quirky'; break; } const quirkyClass = quest.quirky ? 'scope-quirky' : ''; const travelIcon = getTravelIcon(quest.travelMode); infoDiv.innerHTML = ` <p class="text-gray-800 mb-2 text-sm">${quest.text}</p> <div> ${travelIcon ? `<span class="travel-icon" title="Travel Mode: ${quest.travelMode.replace(/_/g, '/')}">${travelIcon}</span>` : ''} <span class="scope-tag ${scopeClass}">${scopeText}</span> ${typeClass ? `<span class="scope-tag ${typeClass}">${typeText}</span>` : ''} ${quest.quirky ? `<span class="scope-tag ${quirkyClass}">Quirky</span>` : ''} </div> ${type === 'completed' && quest.completionDate ? `<p class="completion-date">Completed: ${formatDate(quest.completionDate)}</p>` : ''} `; card.appendChild(infoDiv);
+             let notesArea = null; let notesDisplayStatic = null; if (type === 'active' || type === 'completed') { notesDisplayStatic = document.createElement('div'); notesDisplayStatic.className = 'notes-display'; notesDisplayStatic.textContent = quest.notes || ''; notesDisplayStatic.style.display = quest.notes ? 'block' : 'none'; notesArea = document.createElement('div'); notesArea.className = 'notes-area hidden'; const notesTextarea = document.createElement('textarea'); notesTextarea.className = 'notes-textarea'; notesTextarea.placeholder = 'Add your travel journal notes here...'; notesTextarea.value = quest.notes || ''; notesTextarea.setAttribute('aria-label', `Journal notes for quest: ${quest.text}`); notesTextarea.onblur = () => { const newNotes = notesTextarea.value; updateNotes(quest.id, newNotes); notesDisplayStatic.textContent = newNotes; notesDisplayStatic.style.display = newNotes ? 'block' : 'none'; notesArea.classList.add('hidden'); const toggleButton = card.querySelector('.button-notes'); if(toggleButton) toggleButton.setAttribute('aria-expanded', 'false'); }; notesArea.appendChild(notesTextarea); card.appendChild(notesDisplayStatic); card.appendChild(notesArea); }
+             const buttonsDiv = document.createElement('div'); buttonsDiv.className = 'mt-3 flex gap-2 justify-end items-center flex-wrap';
+             if (type === 'available' || type === 'completed') { const shareButton = document.createElement('button'); shareButton.innerHTML = '🔗 Share'; shareButton.title = "Copy Quest Text"; shareButton.className = 'quest-button button-share text-xs px-2 py-1'; shareButton.onclick = async (e) => { e.stopPropagation(); try { await navigator.clipboard.writeText(quest.text); shareButton.textContent = 'Copied!'; setTimeout(() => { shareButton.innerHTML = '🔗 Share'; }, 1500); } catch (err) { console.error('Failed to copy quest text: ', err); shareButton.textContent = 'Error'; setTimeout(() => { shareButton.innerHTML = '🔗 Share'; }, 1500); } }; buttonsDiv.appendChild(shareButton); } // Always add share button first now
+             if (notesArea && notesDisplayStatic) { const toggleNotesButton = document.createElement('button'); toggleNotesButton.innerHTML = '📝 Notes'; toggleNotesButton.title = "Add/Edit Journal Notes"; toggleNotesButton.className = 'quest-button button-notes text-xs px-2 py-1 mr-auto'; toggleNotesButton.setAttribute('aria-expanded', 'false'); toggleNotesButton.onclick = (e) => { e.stopPropagation(); const isHidden = notesArea.classList.toggle('hidden'); notesDisplayStatic.style.display = isHidden ? (quest.notes ? 'block' : 'none') : 'none'; toggleNotesButton.setAttribute('aria-expanded', String(!isHidden)); if (!isHidden) { notesArea.querySelector('textarea').focus(); } }; buttonsDiv.appendChild(toggleNotesButton); }
+             if (type === 'available') { const rerollButton = document.createElement('button'); rerollButton.textContent = 'Reroll'; rerollButton.className = 'quest-button button-reroll text-xs px-2 py-1'; rerollButton.onclick = (e) => { e.stopPropagation(); rerollQuest(quest.id); }; buttonsDiv.appendChild(rerollButton); const acceptButton = document.createElement('button'); acceptButton.textContent = 'Accept'; acceptButton.className = 'quest-button button-secondary text-sm px-3 py-1'; acceptButton.onclick = (e) => { e.stopPropagation(); acceptQuest(quest.id); }; buttonsDiv.appendChild(acceptButton); } else if (type === 'active') { const completeButton = document.createElement('button'); completeButton.textContent = 'Complete'; completeButton.className = 'quest-button button-tertiary text-sm px-3 py-1'; completeButton.onclick = (e) => { e.stopPropagation(); completeQuest(quest.id); }; buttonsDiv.appendChild(completeButton); }
+             if (buttonsDiv.children.length > 0) { card.appendChild(buttonsDiv); }
+             requestAnimationFrame(() => { setTimeout(() => { card.style.opacity = '1'; card.style.transform = 'translateY(0)'; }, 10); }); return card; }; // Use requestAnimationFrame for smoother animation start
+        /** Renders the profile section */
+        const renderProfile = () => { /* ... (same as v8) ... */ const nextLevelXP = xpForNextLevel(currentLevel); const xpIntoCurrentLevel = calculateRemainingXp(currentXP); const currentTitle = getTitleForLevel(currentLevel); levelDisplay.textContent = currentLevel; profileTitleDisplay.textContent = currentTitle; xpDisplay.textContent = Math.floor(xpIntoCurrentLevel); xpNextDisplay.textContent = Math.ceil(nextLevelXP); const progressPercent = nextLevelXP > 0 ? Math.min(100, (xpIntoCurrentLevel / nextLevelXP) * 100) : 0; xpProgress.style.width = `${progressPercent}%`; xpProgress.setAttribute('aria-valuenow', Math.floor(progressPercent)); };
+        /** Renders the Travel Journal page */
+        const renderJournalPage = () => { /* ... (same as v8) ... */ journalList.innerHTML = ''; const journalQuests = completedQuests .filter(quest => quest.notes && quest.notes.trim() !== '') .sort((a, b) => new Date(b.completionDate) - new Date(a.completionDate)); if (journalQuests.length === 0) { journalList.innerHTML = '<p class="italic text-center">Complete quests and add notes to see your journal entries!</p>'; return; } journalQuests.forEach(quest => { const entryDiv = document.createElement('div'); entryDiv.className = 'journal-entry'; const notesContentDiv = document.createElement('div'); notesContentDiv.className = 'notes-content'; notesContentDiv.textContent = quest.notes; entryDiv.innerHTML = ` <p class="quest-text">${quest.text}</p> <p class="completion-date">Completed: ${formatDate(quest.completionDate)}</p> `; entryDiv.appendChild(notesContentDiv); journalList.appendChild(entryDiv); }); };
+        /** Renders the Achievements page */
+        const renderAchievements = () => { /* ... (same as v10) ... */ achievementsListContainer.innerHTML = ''; for(const id in achievementStatus){ if(achievements[id]) achievements[id].earned = true; } const sortedIds = Object.keys(achievements).sort((a, b) => { const earnedA = achievementStatus[a] || false; const earnedB = achievementStatus[b] || false; if (earnedA === earnedB) return 0; return earnedA ? -1 : 1; }); if (sortedIds.length === 0) { achievementsListContainer.innerHTML = '<p class="italic text-center">No achievements defined yet.</p>'; return; } sortedIds.forEach(id => { const achievement = achievements[id]; const isEarned = achievementStatus[id] || false; const li = document.createElement('li'); li.className = `achievement-item ${isEarned ? 'earned' : ''}`; li.innerHTML = ` <span class="achievement-icon" aria-hidden="true">${achievement.icon}</span> <div class="achievement-details"> <h4>${achievement.name}</h4> <p>${achievement.description}</p> </div> `; achievementsListContainer.appendChild(li); }); };
+        /** Renders the filter checkboxes */
+        const renderFilterOptions = () => { /* ... (same as v10) ... */ filterOptionsContainer.innerHTML = ''; const types = getQuestTypes(); types.sort().forEach(type => { const wrapper = document.createElement('div'); const checkboxId = `filter-${type.toLowerCase().replace(/\s+/g, '-')}`; wrapper.innerHTML = ` <input type="checkbox" id="${checkboxId}" name="questTypeFilter" value="${type}" class="filter-checkbox"> <label for="${checkboxId}">${type}</label> `; filterOptionsContainer.appendChild(wrapper); }); };
+        /** Gets the currently selected filter types */
+        const getActiveFilters = () => { /* ... (same as v10) ... */ const checkboxes = filterOptionsContainer.querySelectorAll('input[type="checkbox"]:checked'); return Array.from(checkboxes).map(cb => cb.value); };
+        /** Extracts unique quest types from templates */
+        const getQuestTypes = () => { /* ... (same as v10) ... */ const types = new Set(questData.templates.map(t => t.type || "General")); return Array.from(types); };
+        /** Renders all quest lists and current page content */
+        const renderLists = () => { /* ... (same as v10) ... */ availableList.innerHTML = ''; activeList.innerHTML = ''; completedList.innerHTML = ''; if (availableQuests.length === 0 && currentPage === 'quest-log-page') { availableList.innerHTML = '<p class="italic text-sm">Enter location/filters and click "Generate Quests"!</p>'; } else { availableQuests.forEach(quest => availableList.appendChild(createQuestCard(quest, 'available'))); } if (activeQuests.length === 0 && currentPage === 'quest-log-page') { activeList.innerHTML = '<p class="italic text-sm">No active quests.</p>'; } else { activeQuests.forEach(quest => activeList.appendChild(createQuestCard(quest, 'active'))); } if (completedQuests.length === 0 && currentPage === 'quest-log-page') { completedList.innerHTML = '<p class="italic text-sm">No quests completed yet.</p>'; } else { completedQuests .sort((a, b) => new Date(b.completionDate || 0) - new Date(a.completionDate || 0)) .forEach(quest => completedList.appendChild(createQuestCard(quest, 'completed'))); } if (currentPage === 'journal-page') { renderJournalPage(); } if (currentPage === 'achievements-page') { renderAchievements(); } };
+        /** Main UI render function */
+        const renderUI = () => { renderProfile(); renderLists(); }
 
         // --------------------------------------------------------------------------
         // CANARY CHECK
         // --------------------------------------------------------------------------
-        /**
-         * Performs a simple integrity check on page load.
-         */
+        /** Performs a simple integrity check */
         const checkCanary = () => {
-            const expectedValue = "sqr-v1.0-refactor"; // Match the final canary value
+            const expectedValue = "sqr-v1.0.1-gen-debug"; // Match the canary value in HTML
             if (!canaryElement || canaryElement.textContent !== expectedValue) {
                 canaryWarning.classList.remove('hidden');
                 console.warn(`Canary check failed! Expected "${expectedValue}" but found "${canaryElement?.textContent}".`);
@@ -1428,38 +486,20 @@
         // --------------------------------------------------------------------------
         // BASIC SELF-TESTING
         // --------------------------------------------------------------------------
-        /**
-         * Runs a series of basic functional tests on load and logs results to console.
-         */
-        const runSelfTests = () => {
-             console.group("SideQuestr Self-Tests (v1.0 Final)");
-             // Test 1-10 remain the same
-              try { const tq=generateQuest(); console.assert(typeof tq==='object'&&tq.id&&tq.text,"T1 Fail"); if(typeof tq==='object'&&tq.id&&tq.text)console.log("T1 Pass: generateQuest"); } catch(e){console.error("T1 Err:",e);}
-              try { const cl="T"; const tqc=generateQuest(cl); console.assert(typeof tqc==='object'&&tqc.text.includes(cl),"T2 Fail"); if(typeof tqc==='object'&&tqc.text.includes(cl))console.log("T2 Pass: generateQuest custom loc"); } catch(e){console.error("T2 Err:",e);}
-              console.log("T3: Sim Accept..."); let ia=[generateQuest(),generateQuest()]; let iac=[]; if(ia.length>0){const qta={...ia[0], notes:''};iac.push(qta);ia.splice(0,1);console.assert(ia.length===1&&iac.length===1&&iac[0].id===qta.id&&'notes' in iac[0],"T3 Fail"); if(ia.length===1&&iac.length===1&&iac[0].id===qta.id&&'notes' in iac[0])console.log("T3 Pass: Sim Accept");}else{console.warn("T3 Skip");}
-              console.log("T4: Sim Complete..."); let iafc=[{...generateQuest(), notes:'test'}]; let ic=[]; let ix=currentXP; if(iafc.length>0){const qtc={...iafc[0]}; const sfxp=qtc.scope==='Custom'?'Local':qtc.scope; let exg=0; switch(sfxp){case 'Local':exg=10;break;case 'Regional':exg=30;break;case 'Epic':exg=100;break;default:exg=10;} if(qtc.quirky)exg+=5; ic.push({...qtc, completionDate: new Date().toISOString()}); iafc.splice(0,1); const fxp=ix+exg; console.assert(iafc.length===0&&ic.length===1&&ic[0].id===qtc.id&&ic[0].completionDate&&ic[0].notes==='test',"T4 Fail"); if(iafc.length===0&&ic.length===1&&ic[0].id===qtc.id&&ic[0].completionDate)console.log(`T4 Pass: Sim Complete (XP+${exg}, Date Added)`);}else{console.warn("T4 Skip");}
-              console.log("T5: Sim Reroll..."); let iafr=[generateQuest(),generateQuest()]; if(iafr.length>0){const oqid=iafr[0].id; const nq=generateQuest(); iafr[0]=nq; console.assert(iafr.length===2&&iafr[0].id!==oqid,"T5 Fail"); if(iafr.length===2&&iafr[0].id!==oqid)console.log("T5 Pass: Sim Reroll");}else{console.warn("T5 Skip");}
-              console.log("T6: Sim Add Notes..."); const qfn=generateQuest(); qfn.notes=''; const tn="Notes test."; const aqb=[...activeQuests]; activeQuests=[qfn]; try { updateNotes(qfn.id,tn); console.assert(activeQuests[0].notes===tn,"T6 Fail"); if(activeQuests[0].notes===tn)console.log("T6 Pass: Sim Add Notes"); } catch(e){console.error("T6 Err:",e);} activeQuests=aqb;
-              console.log("T7: Testing Render Journal Page..."); const cbk=[...completedQuests]; completedQuests=[{...generateQuest(),notes:"J1",completionDate:new Date().toISOString()},{...generateQuest(),notes:"",completionDate:new Date().toISOString()}]; try { renderJournalPage(); console.assert(journalList.innerHTML.includes("J1")&&!journalList.innerHTML.includes("Complete quests"),"T7 Fail"); if(journalList.innerHTML.includes("J1"))console.log("T7 Pass: renderJournalPage ran"); } catch(e){console.error("T7 Err:",e);} completedQuests=cbk;
-              console.log("Test 8: Testing Get Title For Level..."); try { const t1=getTitleForLevel(1); const t5=getTitleForLevel(5); const t10=getTitleForLevel(10); console.assert(t1==="Novice Quester"&&t5==="Seasoned Adventurer"&&t10==="Quirk Master","T8 Fail"); if(t1==="Novice Quester"&&t5==="Seasoned Adventurer")console.log("T8 Pass: getTitleForLevel()"); } catch(e){console.error("T8 Err:",e);}
-              console.log("Test 9: Simulating Achievement Check..."); const statsBackup = JSON.parse(JSON.stringify(stats)); const achievementStatusBackup = JSON.parse(JSON.stringify(achievementStatus)); stats.totalCompleted = 10; stats.completedByType['Social'] = 5; const levelBackup = currentLevel; currentLevel = 5; achievementStatus = {}; try { checkAchievements(); console.assert(achievementStatus['complete_1'] && achievementStatus['complete_10'] && achievementStatus['level_5'] && achievementStatus['social_5'], "T9 Fail"); if (achievementStatus['complete_10'] && achievementStatus['level_5']) console.log("T9 Pass: checkAchievements()"); } catch(e) { console.error("T9 Failed: checkAchievements() threw an error:", e); } stats = statsBackup; achievementStatus = achievementStatusBackup; currentLevel = levelBackup;
-              console.log("Test 10: Simulating Filtering..."); try { renderFilterOptions(); const filters = getActiveFilters(); console.assert(Array.isArray(filters), "T10 Fail"); if(Array.isArray(filters)) console.log("T10 Pass: getActiveFilters() runs"); } catch(e) { console.error("T10 Failed: Filtering setup threw an error:", e); }
-             // Test 11: Achievement Alert Trigger (Simulated)
-             console.log("Test 11: Simulating Achievement Alert...");
-             let alertTriggered = false;
-             const realShowAchievementAlert = showAchievementAlert; // Backup real function
-             // Mock function - NOTE: showAchievementAlert is now 'let', not 'const'
-             showAchievementAlert = (name, icon) => { alertTriggered = true; console.log(`Simulated alert for: ${icon} ${name}`); };
-             const statsBkp = JSON.parse(JSON.stringify(stats)); const achBkp = JSON.parse(JSON.stringify(achievementStatus));
-             stats.totalCompleted = 0; achievementStatus = {}; // Reset for test
-             stats.totalCompleted = 1; // Trigger achievement
-             checkAchievements(); // This call should trigger the mocked alert
-             console.assert(alertTriggered, "Test 11 Failed: Achievement alert was not triggered.");
-             if(alertTriggered) console.log("Test 11 Passed: Achievement alert triggered.");
-             showAchievementAlert = realShowAchievementAlert; // Restore real function
-             stats = statsBkp; achievementStatus = achBkp; // Restore state
-
-
+        /** Runs basic functional tests on load */
+        const runSelfTests = () => { /* ... (Tests 1-11 from v10.10) ... */
+             console.group("SideQuestr Self-Tests (v1.0.1 - Debug)");
+             try { const tq=generateQuest(); console.assert(typeof tq==='object'&&tq.id&&tq.text,"T1 Fail"); if(typeof tq==='object'&&tq.id&&tq.text)console.log("T1 Pass: generateQuest"); } catch(e){console.error("T1 Err:",e);}
+             try { const cl="T"; const tqc=generateQuest(cl); console.assert(typeof tqc==='object'&&tqc.text.includes(cl),"T2 Fail"); if(typeof tqc==='object'&&tqc.text.includes(cl))console.log("T2 Pass: generateQuest custom loc"); } catch(e){console.error("T2 Err:",e);}
+             console.log("T3: Sim Accept..."); let ia=[generateQuest(),generateQuest()]; let iac=[]; if(ia.length>0){const qta={...ia[0], notes:''};iac.push(qta);ia.splice(0,1);console.assert(ia.length===1&&iac.length===1&&iac[0].id===qta.id&&'notes' in iac[0],"T3 Fail"); if(ia.length===1&&iac.length===1&&iac[0].id===qta.id&&'notes' in iac[0])console.log("T3 Pass: Sim Accept");}else{console.warn("T3 Skip");}
+             console.log("T4: Sim Complete..."); let iafc=[{...generateQuest(), notes:'test'}]; let ic=[]; let ix=currentXP; if(iafc.length>0){const qtc={...iafc[0]}; const sfxp=qtc.scope==='Custom'?'Local':qtc.scope; let exg=0; switch(sfxp){case 'Local':exg=10;break;case 'Regional':exg=30;break;case 'Epic':exg=100;break;default:exg=10;} if(qtc.quirky)exg+=5; ic.push({...qtc, completionDate: new Date().toISOString()}); iafc.splice(0,1); const fxp=ix+exg; console.assert(iafc.length===0&&ic.length===1&&ic[0].id===qtc.id&&ic[0].completionDate&&ic[0].notes==='test',"T4 Fail"); if(iafc.length===0&&ic.length===1&&ic[0].id===qtc.id&&ic[0].completionDate)console.log(`T4 Pass: Sim Complete (XP+${exg}, Date Added)`);}else{console.warn("T4 Skip");}
+             console.log("T5: Sim Reroll..."); let iafr=[generateQuest(),generateQuest()]; if(iafr.length>0){const oqid=iafr[0].id; const nq=generateQuest(); iafr[0]=nq; console.assert(iafr.length===2&&iafr[0].id!==oqid,"T5 Fail"); if(iafr.length===2&&iafr[0].id!==oqid)console.log("T5 Pass: Sim Reroll");}else{console.warn("T5 Skip");}
+             console.log("T6: Sim Add Notes..."); const qfn=generateQuest(); qfn.notes=''; const tn="Notes test."; const aqb=[...activeQuests]; activeQuests=[qfn]; try { updateNotes(qfn.id,tn); console.assert(activeQuests[0].notes===tn,"T6 Fail"); if(activeQuests[0].notes===tn)console.log("T6 Pass: Sim Add Notes"); } catch(e){console.error("T6 Err:",e);} activeQuests=aqb;
+             console.log("T7: Testing Render Journal Page..."); const cbk=[...completedQuests]; completedQuests=[{...generateQuest(),notes:"J1",completionDate:new Date().toISOString()},{...generateQuest(),notes:"",completionDate:new Date().toISOString()}]; try { renderJournalPage(); console.assert(journalList.innerHTML.includes("J1")&&!journalList.innerHTML.includes("Complete quests"),"T7 Fail"); if(journalList.innerHTML.includes("J1"))console.log("T7 Pass: renderJournalPage ran"); } catch(e){console.error("T7 Err:",e);} completedQuests=cbk;
+             console.log("Test 8: Testing Get Title For Level..."); try { const t1=getTitleForLevel(1); const t5=getTitleForLevel(5); const t10=getTitleForLevel(10); console.assert(t1==="Novice Quester"&&t5==="Seasoned Adventurer"&&t10==="Quirk Master","T8 Fail"); if(t1==="Novice Quester"&&t5==="Seasoned Adventurer")console.log("T8 Pass: getTitleForLevel()"); } catch(e){console.error("T8 Err:",e);}
+             console.log("Test 9: Simulating Achievement Check..."); const statsBackup = JSON.parse(JSON.stringify(stats)); const achievementStatusBackup = JSON.parse(JSON.stringify(achievementStatus)); stats.totalCompleted = 10; stats.completedByType['Social'] = 5; const levelBackup = currentLevel; currentLevel = 5; achievementStatus = {}; try { checkAchievements(); console.assert(achievementStatus['complete_1'] && achievementStatus['complete_10'] && achievementStatus['level_5'] && achievementStatus['social_5'], "T9 Fail"); if (achievementStatus['complete_10'] && achievementStatus['level_5']) console.log("T9 Pass: checkAchievements()"); } catch(e) { console.error("T9 Failed: checkAchievements() threw an error:", e); } stats = statsBackup; achievementStatus = achievementStatusBackup; currentLevel = levelBackup;
+             console.log("Test 10: Simulating Filtering..."); try { renderFilterOptions(); const filters = getActiveFilters(); console.assert(Array.isArray(filters), "T10 Fail"); if(Array.isArray(filters)) console.log("T10 Pass: getActiveFilters() runs"); } catch(e) { console.error("T10 Failed: Filtering setup threw an error:", e); }
+             console.log("Test 11: Simulating Achievement Alert..."); let alertTriggered = false; const realShowAchievementAlert = showAchievementAlert; showAchievementAlert = (name, icon) => { alertTriggered = true; console.log(`Simulated alert for: ${icon} ${name}`); }; const statsBkp = JSON.parse(JSON.stringify(stats)); const achBkp = JSON.parse(JSON.stringify(achievementStatus)); stats.totalCompleted = 0; achievementStatus = {}; stats.totalCompleted = 1; checkAchievements(); console.assert(alertTriggered, "Test 11 Failed: Achievement alert was not triggered."); if(alertTriggered) console.log("Test 11 Passed: Achievement alert triggered."); showAchievementAlert = realShowAchievementAlert; stats = statsBkp; achievementStatus = achBkp;
              console.groupEnd();
          };
 
@@ -1468,39 +508,34 @@
         // EVENT LISTENERS
         // --------------------------------------------------------------------------
 
-        /**
-         * Handles click on the main "Generate Quests" button.
-         * Ensures audio context is started before generating.
-         */
+        /** Handles click on the main "Generate Quests" button */
         generateBtn.addEventListener('click', async () => {
+            console.log("Generate Quests button clicked."); // DEBUG
             // Try to start/resume audio context on the first relevant user interaction
             if (!audioContextStarted && typeof Tone !== 'undefined') {
+                console.log("Attempting to start audio context..."); // DEBUG
                 await startAudioContext(); // Wait for context to attempt start
             }
             // Always ensure synths are initialized *after* potential context start
-            // (startAudioContext calls initAudio on success)
             initAudio();
             generateNewSet();
         });
 
-        // Add other event listeners as needed (e.g., for filter checkboxes if immediate filtering is desired)
-
         // --------------------------------------------------------------------------
         // INITIALIZATION
         // --------------------------------------------------------------------------
-        /**
-         * Runs the initial setup when the script loads.
-         */
+        /** Runs the initial setup when the script loads */
         function initializeApp() {
-            loadData();             // Load saved state from localStorage
+            console.log("Initializing App..."); // DEBUG
+            loadData();             // Load saved state
             checkCanary();          // Perform integrity check
             renderFilterOptions();  // Create filter checkboxes
             showPage(currentPage);  // Display the correct initial page
-            renderUI();             // Render initial UI elements (profile, lists)
+            renderUI();             // Render initial UI
             runSelfTests();         // Run basic functional tests
             console.log("SideQuestr App Initialized!");
         }
-        // hi don
+
         // Run initialization when the DOM is fully loaded
         document.addEventListener('DOMContentLoaded', initializeApp);
 

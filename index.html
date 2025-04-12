@@ -172,7 +172,7 @@
 </head>
 <body class="p-4 md:p-8">
 
-    <span id="canary" class="hidden">sqr-v1.0.4-canaryfix</span>
+    <span id="canary" class="hidden">sqr-v1.0.5-canary-sync</span>
     <div id="canary-warning" class="canary-warning hidden max-w-4xl mx-auto">
         Warning: App integrity check failed! The application code may have been modified.
     </div>
@@ -279,7 +279,7 @@
     </div>
     <script>
         // ==========================================================================
-        // SideQuestr v1.0.4 - Application Script (Canary Fix)
+        // SideQuestr v1.0.5 - Application Script (Canary Fix 3)
         // ==========================================================================
         // Handles quest generation, state management, UI rendering, achievements,
         // themes, sounds, journaling, and other features. Includes extra logging.
@@ -340,117 +340,99 @@
         // --- Core Logic ---
         /** Generates a single random quest object */
         const generateQuest = (locationOverride = null) => { /* ... (same as v10.3) ... */
-            // console.log("generateQuest called. Custom Location:", customLocation, "Override:", locationOverride); // DEBUG
             let template;
             const useLocation = locationOverride || customLocation;
-            // console.log("Using location:", useLocation || "None"); // DEBUG
             let potentialTemplates = questData.templates;
-
-            if (!useLocation) {
-                potentialTemplates = potentialTemplates.filter(t => !t.structure.includes('{custom_location}'));
-            }
-
-            if (useLocation) {
-                const locationTemplates = potentialTemplates.filter(t =>
-                    t.structure.includes('{location_') || t.structure.includes('{custom_location}')
-                );
-                 // console.log(`Found ${locationTemplates.length} location-based templates.`); // DEBUG
-                if (Math.random() < 0.7 && locationTemplates.length > 0) {
-                     const customTemplate = locationTemplates.find(t => t.structure.includes('{custom_location}'));
-                     if (customTemplate && useLocation && !locationOverride) {
-                         template = customTemplate;
-                         // console.log("Attempting to use specific custom template."); // DEBUG
-                     } else {
-                         template = getRandomElement(locationTemplates);
-                         // console.log("Using random location template."); // DEBUG
-                     }
-                }
-            }
-
-            if (!template) {
-                 const validTemplates = !useLocation
-                    ? potentialTemplates.filter(t => !t.structure.includes('{custom_location}'))
-                    : potentialTemplates;
-                 // console.log(`No template yet, choosing from ${validTemplates.length} valid templates.`); // DEBUG
-                 if (validTemplates.length > 0) {
-                     template = getRandomElement(validTemplates);
-                 }
-            }
-
-             if (!template) {
-                 console.error("Error: Could not select a quest template. Using default.");
-                 template = { structure: "Observe something interesting nearby", scope: "Local", type: "General", quirky: 0, travelMode: "walk" };
-             }
-             // console.log("Selected template structure:", template?.structure); // DEBUG
-
+            if (!useLocation) { potentialTemplates = potentialTemplates.filter(t => !t.structure.includes('{custom_location}')); }
+            if (useLocation) { const locationTemplates = potentialTemplates.filter(t => t.structure.includes('{location_') || t.structure.includes('{custom_location}')); if (Math.random() < 0.7 && locationTemplates.length > 0) { const customTemplate = locationTemplates.find(t => t.structure.includes('{custom_location}')); if (customTemplate && useLocation && !locationOverride) { template = customTemplate; } else { template = getRandomElement(locationTemplates); } } }
+            if (!template) { const validTemplates = !useLocation ? potentialTemplates.filter(t => !t.structure.includes('{custom_location}')) : potentialTemplates; if (validTemplates.length > 0) { template = getRandomElement(validTemplates); } }
+            if (!template) { console.error("Error: Could not select a quest template. Using default."); template = { structure: "Observe something interesting nearby", scope: "Local", type: "General", quirky: 0, travelMode: "walk" }; }
             let questText = template.structure;
             const getFilteredElement = (key, filter) => { const list = questData[key]; if (!list) return null; if (!filter) return getRandomElement(list); const filteredList = list.filter(item => filter.includes(item)); return filteredList.length > 0 ? getRandomElement(filteredList) : (list.length > 0 ? getRandomElement(list) : null); };
-
-            questText = questText.replace('{action}', getFilteredElement('actions', template.actionFilter) || 'Observe');
-            questText = questText.replace('{object}', getFilteredElement('objects', template.objectFilter) || 'something interesting');
-            questText = questText.replace('{modifier}', getFilteredElement('modifiers', template.modifierFilter) || '');
-
-             if (useLocation && questText.includes('{custom_location}')) {
-                 questText = questText.replace('{custom_location}', useLocation);
-                 // console.log("Replaced {custom_location}"); // DEBUG
-             } else if (useLocation && (questText.includes('{location_local}') || questText.includes('{location_regional}') || questText.includes('{location_epic}'))) {
-                 questText = questText.replace(/\{(location_local|location_regional|location_epic)\}/g, useLocation);
-                 // console.log("Replaced generic location placeholder with custom location"); // DEBUG
-             } else {
-                 questText = questText.replace('{location_local}', getFilteredElement('locations_local', template.locationFilter) || 'nearby');
-                 questText = questText.replace('{location_regional}', getFilteredElement('locations_regional', template.locationFilter) || 'regionally');
-                 questText = questText.replace('{location_epic}', getFilteredElement('locations_epic', template.locationFilter) || 'far away');
-             }
-
-             questText = questText.replace(/\s\s+/g, ' ').trim();
-             questText = questText.charAt(0).toUpperCase() + questText.slice(1);
-
+            questText = questText.replace('{action}', getFilteredElement('actions', template.actionFilter) || 'Observe'); questText = questText.replace('{object}', getFilteredElement('objects', template.objectFilter) || 'something interesting'); questText = questText.replace('{modifier}', getFilteredElement('modifiers', template.modifierFilter) || '');
+            if (useLocation && questText.includes('{custom_location}')) { questText = questText.replace('{custom_location}', useLocation); } else if (useLocation && (questText.includes('{location_local}') || questText.includes('{location_regional}') || questText.includes('{location_epic}'))) { questText = questText.replace(/\{(location_local|location_regional|location_epic)\}/g, useLocation); } else { questText = questText.replace('{location_local}', getFilteredElement('locations_local', template.locationFilter) || 'nearby'); questText = questText.replace('{location_regional}', getFilteredElement('locations_regional', template.locationFilter) || 'regionally'); questText = questText.replace('{location_epic}', getFilteredElement('locations_epic', template.locationFilter) || 'far away'); }
+            questText = questText.replace(/\s\s+/g, ' ').trim(); questText = questText.charAt(0).toUpperCase() + questText.slice(1);
             const finalScope = useLocation && (template.structure.includes('{location_') || template.structure.includes('{custom_location}')) ? 'Custom' : template.scope;
-
-            const finalQuestObject = {
-                id: Date.now() + Math.random(), text: questText, scope: finalScope || 'Local', type: template.type || "General", quirky: template.quirky >= 2, travelMode: template.travelMode || "walk"
-            };
-            // console.log("Generated quest object:", finalQuestObject); // DEBUG
+            const finalQuestObject = { id: Date.now() + Math.random(), text: questText, scope: finalScope || 'Local', type: template.type || "General", quirky: template.quirky >= 2, travelMode: template.travelMode || "walk" };
             return finalQuestObject;
          };
         /** Generates a new set of available quests, applying filters */
-        const generateNewSet = () => { /* ... (same as v10.2 with logging removed) ... */
+        const generateNewSet = () => {
+            // Wrapped main logic in try-catch for better error reporting
             try {
                 customLocation = customLocationInput.value.trim();
                 availableQuests = [];
                 const numToShow = 3 + Math.floor(Math.random() * 3);
-                const numToGenerate = 25;
-                const generatedPool = [];
-                for (let i = 0; i < numToGenerate; i++) {
-                    const newQuest = generateQuest();
-                    if(newQuest) { generatedPool.push(newQuest); }
-                    else { console.error(`generateQuest returned null/undefined during pool generation (iteration ${i})`); }
-                }
-                const activeFilters = getActiveFilters();
-                let potentialQuests = generatedPool;
-                if (activeFilters.length > 0) {
-                    potentialQuests = generatedPool.filter(quest => activeFilters.includes(quest.type || "General"));
-                }
-                if (potentialQuests.length >= numToShow) {
-                    availableQuests = potentialQuests.sort(() => 0.5 - Math.random()).slice(0, numToShow);
-                } else {
-                    availableQuests = [...potentialQuests];
-                    const needed = numToShow - availableQuests.length;
-                    if (needed > 0) {
-                        const fallbackQuests = generatedPool.filter(q => !availableQuests.some(aq => aq.id === q.id));
-                        availableQuests.push(...fallbackQuests.sort(() => 0.5 - Math.random()).slice(0, needed));
+                const numToGenerate = 25; // Generate a slightly larger pool
+                let generatedPool = [];
+
+                // --- Step 1: Generate Pool ---
+                try {
+                    for (let i = 0; i < numToGenerate; i++) {
+                        const newQuest = generateQuest();
+                        if(newQuest) { generatedPool.push(newQuest); }
+                        else { console.error(`generateQuest returned null/undefined during pool generation (iteration ${i})`); }
                     }
+                    console.log(`Generated pool size: ${generatedPool.length}`);
+                } catch (error) {
+                    console.error("Error during quest pool generation:", error);
+                    throw new Error("Pool generation failed"); // Re-throw to be caught by outer catch
                 }
-                 if (availableQuests.length === 0 && generatedPool.length > 0) {
-                     availableQuests = generatedPool.slice(0, numToShow);
-                     console.warn("Filtering resulted in zero quests, showing unfiltered quests.");
-                 } else if (availableQuests.length === 0) {
-                     console.error("Failed to generate any quests to display.");
-                 }
+
+                // --- Step 2: Apply Filters ---
+                let potentialQuests = generatedPool;
+                try {
+                    const activeFilters = getActiveFilters();
+                    console.log("Active filters:", activeFilters);
+                    if (activeFilters.length > 0) {
+                        potentialQuests = generatedPool.filter(quest => activeFilters.includes(quest.type || "General"));
+                        console.log(`Filtered pool size: ${potentialQuests.length}`);
+                    } else {
+                         console.log("No filters active, using full pool.");
+                         potentialQuests = generatedPool; // Use full pool if no filters
+                    }
+                } catch (error) {
+                     console.error("Error during quest filtering:", error);
+                     potentialQuests = generatedPool; // Fallback to unfiltered pool on error
+                }
+
+
+                // --- Step 3: Select & Fallback ---
+                try {
+                    if (potentialQuests.length >= numToShow) {
+                        availableQuests = potentialQuests.sort(() => 0.5 - Math.random()).slice(0, numToShow);
+                    } else {
+                        availableQuests = [...potentialQuests];
+                        const needed = numToShow - availableQuests.length;
+                        if (needed > 0) {
+                            console.log(`Not enough filtered quests, needing ${needed} more.`);
+                            const fallbackQuests = generatedPool.filter(q => !availableQuests.some(aq => aq.id === q.id));
+                            availableQuests.push(...fallbackQuests.sort(() => 0.5 - Math.random()).slice(0, needed));
+                        }
+                    }
+                     console.log(`Final availableQuests size: ${availableQuests.length}`);
+
+                     if (availableQuests.length === 0 && generatedPool.length > 0) {
+                         availableQuests = generatedPool.slice(0, numToShow);
+                         console.warn("Filtering resulted in zero quests, showing unfiltered quests.");
+                     } else if (availableQuests.length === 0) {
+                         console.error("Failed to generate any quests to display.");
+                     }
+                } catch(error) {
+                     console.error("Error during final quest selection/fallback:", error);
+                     // Attempt to recover with *any* generated quests if selection failed
+                     if (availableQuests.length === 0 && generatedPool.length > 0) {
+                         availableQuests = generatedPool.slice(0, numToShow);
+                     }
+                }
+
+                // --- Step 4: Final Actions ---
                 playSound('generate');
                 renderUI();
                 saveData();
+                console.log("--- generateNewSet FINISHED ---");
             } catch (error) {
+                // Catch errors from pool generation or selection steps
                 console.error("Error occurred in generateNewSet:", error);
                 availableList.innerHTML = '<p class="text-red-600 font-bold">Error generating quests. Please check console (F12) and report the error.</p>';
             }
@@ -473,54 +455,82 @@
 
         // --- Alert Popups ---
         /** Displays level up alert */
-        const showLevelUpAlert = (level) => { /* ... (same as v8) ... */ const newTitle = getTitleForLevel(level); levelUpAlert.textContent = `Level Up! Reached Level ${level}: ${newTitle}!`; levelUpAlert.classList.add('show'); setTimeout(() => { levelUpAlert.classList.remove('show'); }, 3500); };
+        const showLevelUpAlert = (level) => { /* ... (same as v8) ... */ try { const newTitle = getTitleForLevel(level); levelUpAlert.textContent = `Level Up! Reached Level ${level}: ${newTitle}!`; levelUpAlert.classList.add('show'); setTimeout(() => { levelUpAlert.classList.remove('show'); }, 3500); } catch(e) { console.error("Error in showLevelUpAlert:", e); } };
         /** Displays achievement alert */
-        let showAchievementAlert = (name, icon) => { /* ... (same as v10.3) ... */ achievementAlert.innerHTML = `${icon} Achievement Unlocked: ${name}!`; achievementAlert.classList.add('show'); setTimeout(() => { achievementAlert.classList.remove('show'); }, 3500); };
+        let showAchievementAlert = (name, icon) => { /* ... (same as v10.3) ... */ try { achievementAlert.innerHTML = `${icon} Achievement Unlocked: ${name}!`; achievementAlert.classList.add('show'); setTimeout(() => { achievementAlert.classList.remove('show'); }, 3500); } catch(e) { console.error("Error in showAchievementAlert:", e); } };
 
 
         // --- Rendering Functions ---
         /** Gets travel mode emoji */
         const getTravelIcon = (mode) => { /* ... (same as v8) ... */ if (!mode) return ''; if (mode.includes('plane')) return '✈️'; if (mode.includes('train')) return '🚆'; if (mode.includes('bus')) return '🚌'; if (mode.includes('car')) return '🚗'; if (mode.includes('bike')) return '🚲'; if (mode.includes('walk')) return '🚶'; return ''; };
         /** Creates HTML for a single quest card */
-        const createQuestCard = (quest, type) => { /* ... (same as v10.2) ... */
-             const card = document.createElement('div'); card.className = `quest-card ${quest.notes ? 'pb-4' : ''}`; card.style.opacity = '0'; card.style.transform = 'translateY(10px)'; card.style.transition = 'opacity 0.3s ease-out, transform 0.3s ease-out';
-             const infoDiv = document.createElement('div'); let scopeClass = ''; let scopeText = quest.scope; switch (quest.scope) { case 'Local': scopeClass = 'scope-local'; break; case 'Regional': scopeClass = 'scope-regional'; break; case 'Epic': scopeClass = 'scope-epic'; break; case 'Custom': scopeClass = 'scope-custom'; scopeText = 'Custom Loc.'; break; default: scopeClass = 'scope-local'; } let typeClass = ''; let typeText = quest.type || 'General'; switch (typeText) { case 'Social': typeClass = 'scope-social'; break; case 'Creative': typeClass = 'scope-creative'; break; case 'Kindness': typeClass = 'scope-kindness'; break; case 'Exploration': typeClass = 'scope-regional'; break; case 'Learning': typeClass = 'scope-quirky'; break; } const quirkyClass = quest.quirky ? 'scope-quirky' : ''; const travelIcon = getTravelIcon(quest.travelMode); infoDiv.innerHTML = ` <p class="text-gray-800 mb-2 text-sm">${quest.text}</p> <div> ${travelIcon ? `<span class="travel-icon" title="Travel Mode: ${quest.travelMode.replace(/_/g, '/')}">${travelIcon}</span>` : ''} <span class="scope-tag ${scopeClass}">${scopeText}</span> ${typeClass ? `<span class="scope-tag ${typeClass}">${typeText}</span>` : ''} ${quest.quirky ? `<span class="scope-tag ${quirkyClass}">Quirky</span>` : ''} </div> ${type === 'completed' && quest.completionDate ? `<p class="completion-date">Completed: ${formatDate(quest.completionDate)}</p>` : ''} `; card.appendChild(infoDiv);
-             let notesArea = null; let notesDisplayStatic = null; if (type === 'active' || type === 'completed') { notesDisplayStatic = document.createElement('div'); notesDisplayStatic.className = 'notes-display'; notesDisplayStatic.textContent = quest.notes || ''; notesDisplayStatic.style.display = quest.notes ? 'block' : 'none'; notesArea = document.createElement('div'); notesArea.className = 'notes-area hidden'; const notesTextarea = document.createElement('textarea'); notesTextarea.className = 'notes-textarea'; notesTextarea.placeholder = 'Add your travel journal notes here...'; notesTextarea.value = quest.notes || ''; notesTextarea.setAttribute('aria-label', `Journal notes for quest: ${quest.text}`); notesTextarea.onblur = () => { const newNotes = notesTextarea.value; updateNotes(quest.id, newNotes); notesDisplayStatic.textContent = newNotes; notesDisplayStatic.style.display = newNotes ? 'block' : 'none'; notesArea.classList.add('hidden'); const toggleButton = card.querySelector('.button-notes'); if(toggleButton) toggleButton.setAttribute('aria-expanded', 'false'); }; notesArea.appendChild(notesTextarea); card.appendChild(notesDisplayStatic); card.appendChild(notesArea); }
-             const buttonsDiv = document.createElement('div'); buttonsDiv.className = 'mt-3 flex gap-2 justify-end items-center flex-wrap';
-             if (type === 'available' || type === 'completed') { const shareButton = document.createElement('button'); shareButton.innerHTML = '🔗 Share'; shareButton.title = "Copy Quest Text"; shareButton.className = 'quest-button button-share text-xs px-2 py-1'; shareButton.onclick = async (e) => { e.stopPropagation(); try { await navigator.clipboard.writeText(quest.text); shareButton.textContent = 'Copied!'; setTimeout(() => { shareButton.innerHTML = '🔗 Share'; }, 1500); } catch (err) { console.error('Failed to copy quest text: ', err); shareButton.textContent = 'Error'; setTimeout(() => { shareButton.innerHTML = '🔗 Share'; }, 1500); } }; buttonsDiv.appendChild(shareButton); } // Always add share button first now
-             if (notesArea && notesDisplayStatic) { const toggleNotesButton = document.createElement('button'); toggleNotesButton.innerHTML = '📝 Notes'; toggleNotesButton.title = "Add/Edit Journal Notes"; toggleNotesButton.className = 'quest-button button-notes text-xs px-2 py-1 mr-auto'; toggleNotesButton.setAttribute('aria-expanded', 'false'); toggleNotesButton.onclick = (e) => { e.stopPropagation(); const isHidden = notesArea.classList.toggle('hidden'); notesDisplayStatic.style.display = isHidden ? (quest.notes ? 'block' : 'none') : 'none'; toggleNotesButton.setAttribute('aria-expanded', String(!isHidden)); if (!isHidden) { notesArea.querySelector('textarea').focus(); } }; buttonsDiv.appendChild(toggleNotesButton); }
-             if (type === 'available') { const rerollButton = document.createElement('button'); rerollButton.textContent = 'Reroll'; rerollButton.className = 'quest-button button-reroll text-xs px-2 py-1'; rerollButton.onclick = (e) => { e.stopPropagation(); rerollQuest(quest.id); }; buttonsDiv.appendChild(rerollButton); const acceptButton = document.createElement('button'); acceptButton.textContent = 'Accept'; acceptButton.className = 'quest-button button-secondary text-sm px-3 py-1'; acceptButton.onclick = (e) => { e.stopPropagation(); acceptQuest(quest.id); }; buttonsDiv.appendChild(acceptButton); } else if (type === 'active') { const completeButton = document.createElement('button'); completeButton.textContent = 'Complete'; completeButton.className = 'quest-button button-tertiary text-sm px-3 py-1'; completeButton.onclick = (e) => { e.stopPropagation(); completeQuest(quest.id); }; buttonsDiv.appendChild(completeButton); }
-             if (buttonsDiv.children.length > 0) { card.appendChild(buttonsDiv); }
-             requestAnimationFrame(() => { setTimeout(() => { card.style.opacity = '1'; card.style.transform = 'translateY(0)'; }, 10); }); return card; }; // Use requestAnimationFrame for smoother animation start
+        const createQuestCard = (quest, type) => {
+            try {
+                 const card = document.createElement('div'); card.className = `quest-card ${quest.notes ? 'pb-4' : ''}`; card.style.opacity = '0'; card.style.transform = 'translateY(10px)'; card.style.transition = 'opacity 0.3s ease-out, transform 0.3s ease-out';
+                 const infoDiv = document.createElement('div'); let scopeClass = ''; let scopeText = quest.scope; switch (quest.scope) { case 'Local': scopeClass = 'scope-local'; break; case 'Regional': scopeClass = 'scope-regional'; break; case 'Epic': scopeClass = 'scope-epic'; break; case 'Custom': scopeClass = 'scope-custom'; scopeText = 'Custom Loc.'; break; default: scopeClass = 'scope-local'; } let typeClass = ''; let typeText = quest.type || 'General'; switch (typeText) { case 'Social': typeClass = 'scope-social'; break; case 'Creative': typeClass = 'scope-creative'; break; case 'Kindness': typeClass = 'scope-kindness'; break; case 'Exploration': typeClass = 'scope-regional'; break; case 'Learning': typeClass = 'scope-quirky'; break; } const quirkyClass = quest.quirky ? 'scope-quirky' : ''; const travelIcon = getTravelIcon(quest.travelMode); infoDiv.innerHTML = ` <p class="text-gray-800 mb-2 text-sm">${quest.text}</p> <div> ${travelIcon ? `<span class="travel-icon" title="Travel Mode: ${quest.travelMode.replace(/_/g, '/')}">${travelIcon}</span>` : ''} <span class="scope-tag ${scopeClass}">${scopeText}</span> ${typeClass ? `<span class="scope-tag ${typeClass}">${typeText}</span>` : ''} ${quest.quirky ? `<span class="scope-tag ${quirkyClass}">Quirky</span>` : ''} </div> ${type === 'completed' && quest.completionDate ? `<p class="completion-date">Completed: ${formatDate(quest.completionDate)}</p>` : ''} `; card.appendChild(infoDiv);
+                 let notesArea = null; let notesDisplayStatic = null; if (type === 'active' || type === 'completed') { notesDisplayStatic = document.createElement('div'); notesDisplayStatic.className = 'notes-display'; notesDisplayStatic.textContent = quest.notes || ''; notesDisplayStatic.style.display = quest.notes ? 'block' : 'none'; notesArea = document.createElement('div'); notesArea.className = 'notes-area hidden'; const notesTextarea = document.createElement('textarea'); notesTextarea.className = 'notes-textarea'; notesTextarea.placeholder = 'Add your travel journal notes here...'; notesTextarea.value = quest.notes || ''; notesTextarea.setAttribute('aria-label', `Journal notes for quest: ${quest.text}`); notesTextarea.onblur = () => { const newNotes = notesTextarea.value; updateNotes(quest.id, newNotes); notesDisplayStatic.textContent = newNotes; notesDisplayStatic.style.display = newNotes ? 'block' : 'none'; notesArea.classList.add('hidden'); const toggleButton = card.querySelector('.button-notes'); if(toggleButton) toggleButton.setAttribute('aria-expanded', 'false'); }; notesArea.appendChild(notesTextarea); card.appendChild(notesDisplayStatic); card.appendChild(notesArea); }
+                 const buttonsDiv = document.createElement('div'); buttonsDiv.className = 'mt-3 flex gap-2 justify-end items-center flex-wrap';
+                 if (type === 'available' || type === 'completed') { const shareButton = document.createElement('button'); shareButton.innerHTML = '🔗 Share'; shareButton.title = "Copy Quest Text"; shareButton.className = 'quest-button button-share text-xs px-2 py-1'; shareButton.onclick = async (e) => { e.stopPropagation(); try { await navigator.clipboard.writeText(quest.text); shareButton.textContent = 'Copied!'; setTimeout(() => { shareButton.innerHTML = '🔗 Share'; }, 1500); } catch (err) { console.error('Failed to copy quest text: ', err); shareButton.textContent = 'Error'; setTimeout(() => { shareButton.innerHTML = '🔗 Share'; }, 1500); } }; buttonsDiv.appendChild(shareButton); } // Moved share button logic here
+                 if (notesArea && notesDisplayStatic) { const toggleNotesButton = document.createElement('button'); toggleNotesButton.innerHTML = '📝 Notes'; toggleNotesButton.title = "Add/Edit Journal Notes"; toggleNotesButton.className = 'quest-button button-notes text-xs px-2 py-1 mr-auto'; toggleNotesButton.setAttribute('aria-expanded', 'false'); toggleNotesButton.onclick = (e) => { e.stopPropagation(); const isHidden = notesArea.classList.toggle('hidden'); notesDisplayStatic.style.display = isHidden ? (quest.notes ? 'block' : 'none') : 'none'; toggleNotesButton.setAttribute('aria-expanded', String(!isHidden)); if (!isHidden) { notesArea.querySelector('textarea').focus(); } }; buttonsDiv.appendChild(toggleNotesButton); }
+                 if (type === 'available') { const rerollButton = document.createElement('button'); rerollButton.textContent = 'Reroll'; rerollButton.className = 'quest-button button-reroll text-xs px-2 py-1'; rerollButton.onclick = (e) => { e.stopPropagation(); rerollQuest(quest.id); }; buttonsDiv.appendChild(rerollButton); const acceptButton = document.createElement('button'); acceptButton.textContent = 'Accept'; acceptButton.className = 'quest-button button-secondary text-sm px-3 py-1'; acceptButton.onclick = (e) => { e.stopPropagation(); acceptQuest(quest.id); }; buttonsDiv.appendChild(acceptButton); } else if (type === 'active') { const completeButton = document.createElement('button'); completeButton.textContent = 'Complete'; completeButton.className = 'quest-button button-tertiary text-sm px-3 py-1'; completeButton.onclick = (e) => { e.stopPropagation(); completeQuest(quest.id); }; buttonsDiv.appendChild(completeButton); }
+                 if (buttonsDiv.children.length > 0) { card.appendChild(buttonsDiv); }
+                 requestAnimationFrame(() => { setTimeout(() => { card.style.opacity = '1'; card.style.transform = 'translateY(0)'; }, 10); }); return card;
+             } catch (error) {
+                 console.error("Error creating quest card:", error, "for quest:", quest);
+                 // Return a placeholder or null to prevent breaking the loop
+                 const errorCard = document.createElement('div');
+                 errorCard.className = 'quest-card';
+                 errorCard.innerHTML = '<p class="text-red-500">Error displaying quest.</p>';
+                 return errorCard;
+             }
+         };
         /** Renders the profile section */
-        const renderProfile = () => { /* ... (same as v8) ... */ const nextLevelXP = xpForNextLevel(currentLevel); const xpIntoCurrentLevel = calculateRemainingXp(currentXP); const currentTitle = getTitleForLevel(currentLevel); levelDisplay.textContent = currentLevel; profileTitleDisplay.textContent = currentTitle; xpDisplay.textContent = Math.floor(xpIntoCurrentLevel); xpNextDisplay.textContent = Math.ceil(nextLevelXP); const progressPercent = nextLevelXP > 0 ? Math.min(100, (xpIntoCurrentLevel / nextLevelXP) * 100) : 0; xpProgress.style.width = `${progressPercent}%`; xpProgress.setAttribute('aria-valuenow', Math.floor(progressPercent)); };
+        const renderProfile = () => { try { const nextLevelXP = xpForNextLevel(currentLevel); const xpIntoCurrentLevel = calculateRemainingXp(currentXP); const currentTitle = getTitleForLevel(currentLevel); levelDisplay.textContent = currentLevel; profileTitleDisplay.textContent = currentTitle; xpDisplay.textContent = Math.floor(xpIntoCurrentLevel); xpNextDisplay.textContent = Math.ceil(nextLevelXP); const progressPercent = nextLevelXP > 0 ? Math.min(100, (xpIntoCurrentLevel / nextLevelXP) * 100) : 0; xpProgress.style.width = `${progressPercent}%`; xpProgress.setAttribute('aria-valuenow', Math.floor(progressPercent)); } catch(e) { console.error("Error in renderProfile:", e); } };
         /** Renders the Travel Journal page */
-        const renderJournalPage = () => { /* ... (same as v8) ... */ journalList.innerHTML = ''; const journalQuests = completedQuests .filter(quest => quest.notes && quest.notes.trim() !== '') .sort((a, b) => new Date(b.completionDate) - new Date(a.completionDate)); if (journalQuests.length === 0) { journalList.innerHTML = '<p class="italic text-center">Complete quests and add notes to see your journal entries!</p>'; return; } journalQuests.forEach(quest => { const entryDiv = document.createElement('div'); entryDiv.className = 'journal-entry'; const notesContentDiv = document.createElement('div'); notesContentDiv.className = 'notes-content'; notesContentDiv.textContent = quest.notes; entryDiv.innerHTML = ` <p class="quest-text">${quest.text}</p> <p class="completion-date">Completed: ${formatDate(quest.completionDate)}</p> `; entryDiv.appendChild(notesContentDiv); journalList.appendChild(entryDiv); }); };
+        const renderJournalPage = () => { try { journalList.innerHTML = ''; const journalQuests = completedQuests .filter(quest => quest.notes && quest.notes.trim() !== '') .sort((a, b) => new Date(b.completionDate) - new Date(a.completionDate)); if (journalQuests.length === 0) { journalList.innerHTML = '<p class="italic text-center">Complete quests and add notes to see your journal entries!</p>'; return; } journalQuests.forEach(quest => { const entryDiv = document.createElement('div'); entryDiv.className = 'journal-entry'; const notesContentDiv = document.createElement('div'); notesContentDiv.className = 'notes-content'; notesContentDiv.textContent = quest.notes; entryDiv.innerHTML = ` <p class="quest-text">${quest.text}</p> <p class="completion-date">Completed: ${formatDate(quest.completionDate)}</p> `; entryDiv.appendChild(notesContentDiv); journalList.appendChild(entryDiv); }); } catch(e) { console.error("Error in renderJournalPage:", e); journalList.innerHTML = '<p class="text-red-500 font-bold">Error rendering journal.</p>'; }};
         /** Renders the Achievements page */
-        const renderAchievements = () => { /* ... (same as v10) ... */ achievementsListContainer.innerHTML = ''; for(const id in achievementStatus){ if(achievements[id]) achievements[id].earned = true; } const sortedIds = Object.keys(achievements).sort((a, b) => { const earnedA = achievementStatus[a] || false; const earnedB = achievementStatus[b] || false; if (earnedA === earnedB) return 0; return earnedA ? -1 : 1; }); if (sortedIds.length === 0) { achievementsListContainer.innerHTML = '<p class="italic text-center">No achievements defined yet.</p>'; return; } sortedIds.forEach(id => { const achievement = achievements[id]; const isEarned = achievementStatus[id] || false; const li = document.createElement('li'); li.className = `achievement-item ${isEarned ? 'earned' : ''}`; li.innerHTML = ` <span class="achievement-icon" aria-hidden="true">${achievement.icon}</span> <div class="achievement-details"> <h4>${achievement.name}</h4> <p>${achievement.description}</p> </div> `; achievementsListContainer.appendChild(li); }); };
+        const renderAchievements = () => { try { achievementsListContainer.innerHTML = ''; for(const id in achievementStatus){ if(achievements[id]) achievements[id].earned = true; } const sortedIds = Object.keys(achievements).sort((a, b) => { const earnedA = achievementStatus[a] || false; const earnedB = achievementStatus[b] || false; if (earnedA === earnedB) return 0; return earnedA ? -1 : 1; }); if (sortedIds.length === 0) { achievementsListContainer.innerHTML = '<p class="italic text-center">No achievements defined yet.</p>'; return; } sortedIds.forEach(id => { const achievement = achievements[id]; const isEarned = achievementStatus[id] || false; const li = document.createElement('li'); li.className = `achievement-item ${isEarned ? 'earned' : ''}`; li.innerHTML = ` <span class="achievement-icon" aria-hidden="true">${achievement.icon}</span> <div class="achievement-details"> <h4>${achievement.name}</h4> <p>${achievement.description}</p> </div> `; achievementsListContainer.appendChild(li); }); } catch(e) { console.error("Error in renderAchievements:", e); achievementsListContainer.innerHTML = '<p class="text-red-500 font-bold">Error rendering achievements.</p>'; }};
         /** Renders the filter checkboxes */
-        const renderFilterOptions = () => { /* ... (same as v10) ... */ filterOptionsContainer.innerHTML = ''; const types = getQuestTypes(); types.sort().forEach(type => { const wrapper = document.createElement('div'); const checkboxId = `filter-${type.toLowerCase().replace(/\s+/g, '-')}`; wrapper.innerHTML = ` <input type="checkbox" id="${checkboxId}" name="questTypeFilter" value="${type}" class="filter-checkbox"> <label for="${checkboxId}">${type}</label> `; filterOptionsContainer.appendChild(wrapper); }); };
+        const renderFilterOptions = () => { try { filterOptionsContainer.innerHTML = ''; const types = getQuestTypes(); types.sort().forEach(type => { const wrapper = document.createElement('div'); const checkboxId = `filter-${type.toLowerCase().replace(/\s+/g, '-')}`; wrapper.innerHTML = ` <input type="checkbox" id="${checkboxId}" name="questTypeFilter" value="${type}" class="filter-checkbox"> <label for="${checkboxId}">${type}</label> `; filterOptionsContainer.appendChild(wrapper); }); } catch(e) { console.error("Error in renderFilterOptions:", e); }};
         /** Gets the currently selected filter types */
-        const getActiveFilters = () => { /* ... (same as v10) ... */ const checkboxes = filterOptionsContainer.querySelectorAll('input[type="checkbox"]:checked'); return Array.from(checkboxes).map(cb => cb.value); };
+        const getActiveFilters = () => { try { const checkboxes = filterOptionsContainer.querySelectorAll('input[type="checkbox"]:checked'); return Array.from(checkboxes).map(cb => cb.value); } catch(e) { console.error("Error in getActiveFilters:", e); return []; }};
         /** Extracts unique quest types from templates */
-        const getQuestTypes = () => { /* ... (same as v10) ... */ const types = new Set(questData.templates.map(t => t.type || "General")); return Array.from(types); };
+        const getQuestTypes = () => { try { const types = new Set(questData.templates.map(t => t.type || "General")); return Array.from(types); } catch(e) { console.error("Error in getQuestTypes:", e); return ["General"]; }};
         /** Renders all quest lists and current page content */
-        const renderLists = () => { /* ... (same as v10) ... */ availableList.innerHTML = ''; activeList.innerHTML = ''; completedList.innerHTML = ''; if (availableQuests.length === 0 && currentPage === 'quest-log-page') { availableList.innerHTML = '<p class="italic text-sm">Enter location/filters and click "Generate Quests"!</p>'; } else { availableQuests.forEach(quest => availableList.appendChild(createQuestCard(quest, 'available'))); } if (activeQuests.length === 0 && currentPage === 'quest-log-page') { activeList.innerHTML = '<p class="italic text-sm">No active quests.</p>'; } else { activeQuests.forEach(quest => activeList.appendChild(createQuestCard(quest, 'active'))); } if (completedQuests.length === 0 && currentPage === 'quest-log-page') { completedList.innerHTML = '<p class="italic text-sm">No quests completed yet.</p>'; } else { completedQuests .sort((a, b) => new Date(b.completionDate || 0) - new Date(a.completionDate || 0)) .forEach(quest => completedList.appendChild(createQuestCard(quest, 'completed'))); } if (currentPage === 'journal-page') { renderJournalPage(); } if (currentPage === 'achievements-page') { renderAchievements(); } };
+        const renderLists = () => {
+            try {
+                 availableList.innerHTML = ''; activeList.innerHTML = ''; completedList.innerHTML = '';
+                 if (availableQuests.length === 0 && currentPage === 'quest-log-page') { availableList.innerHTML = '<p class="italic text-sm">Enter location/filters and click "Generate Quests"!</p>'; } else { availableQuests.forEach(quest => { const card = createQuestCard(quest, 'available'); if(card) availableList.appendChild(card); }); }
+                 if (activeQuests.length === 0 && currentPage === 'quest-log-page') { activeList.innerHTML = '<p class="italic text-sm">No active quests.</p>'; } else { activeQuests.forEach(quest => { const card = createQuestCard(quest, 'active'); if(card) activeList.appendChild(card); }); }
+                 if (completedQuests.length === 0 && currentPage === 'quest-log-page') { completedList.innerHTML = '<p class="italic text-sm">No quests completed yet.</p>'; } else { completedQuests .sort((a, b) => new Date(b.completionDate || 0) - new Date(a.completionDate || 0)) .forEach(quest => { const card = createQuestCard(quest, 'completed'); if(card) completedList.appendChild(card); }); }
+                 if (currentPage === 'journal-page') { renderJournalPage(); }
+                 if (currentPage === 'achievements-page') { renderAchievements(); }
+             } catch (error) {
+                 console.error("Error occurred during renderLists:", error);
+                 // Attempt to display a general error message in a safe way
+                 availableList.innerHTML = '<p class="text-red-500 font-bold">Error rendering quest lists.</p>';
+             }
+         };
         /** Main UI render function */
-        const renderUI = () => { renderProfile(); renderLists(); }
+        const renderUI = () => { try { renderProfile(); renderLists(); } catch(e) { console.error("Error in renderUI:", e); } }
 
         // --------------------------------------------------------------------------
         // CANARY CHECK
         // --------------------------------------------------------------------------
         /** Performs a simple integrity check */
         const checkCanary = () => {
-            // FIX: Update expected value to match HTML span
-            const expectedValue = "sqr-v1.0.3-canaryfix";
-            if (!canaryElement || canaryElement.textContent !== expectedValue) {
-                canaryWarning.classList.remove('hidden');
-                console.warn(`Canary check failed! Expected "${expectedValue}" but found "${canaryElement?.textContent}".`);
-            } else {
-                 console.log("Canary check passed.");
+            // FIX: Correct expected value to match HTML span for this version
+            const expectedValue = "sqr-v1.0.5-canary-sync";
+            try {
+                if (!canaryElement || canaryElement.textContent !== expectedValue) {
+                    canaryWarning.classList.remove('hidden');
+                    console.warn(`Canary check failed! Expected "${expectedValue}" but found "${canaryElement?.textContent}".`);
+                } else {
+                     console.log("Canary check passed.");
+                }
+            } catch (e) {
+                 console.error("Error during canary check:", e);
+                 canaryWarning.classList.remove('hidden'); // Show warning on error too
             }
         };
 
@@ -529,7 +539,7 @@
         // --------------------------------------------------------------------------
         /** Runs basic functional tests on load */
         const runSelfTests = () => { /* ... (Tests 1-11 from v10.10) ... */
-             console.group("SideQuestr Self-Tests (v1.0.3 - Canary Fix)"); // Updated version in log
+             console.group("SideQuestr Self-Tests (v1.0.5 - Canary Sync)"); // Updated version in log
              try { const tq=generateQuest(); console.assert(typeof tq==='object'&&tq.id&&tq.text,"T1 Fail"); if(typeof tq==='object'&&tq.id&&tq.text)console.log("T1 Pass: generateQuest"); } catch(e){console.error("T1 Err:",e);}
              try { const cl="T"; const tqc=generateQuest(cl); console.assert(typeof tqc==='object'&&tqc.text.includes(cl),"T2 Fail"); if(typeof tqc==='object'&&tqc.text.includes(cl))console.log("T2 Pass: generateQuest custom loc"); } catch(e){console.error("T2 Err:",e);}
              console.log("T3: Sim Accept..."); let ia=[generateQuest(),generateQuest()]; let iac=[]; if(ia.length>0){const qta={...ia[0], notes:''};iac.push(qta);ia.splice(0,1);console.assert(ia.length===1&&iac.length===1&&iac[0].id===qta.id&&'notes' in iac[0],"T3 Fail"); if(ia.length===1&&iac.length===1&&iac[0].id===qta.id&&'notes' in iac[0])console.log("T3 Pass: Sim Accept");}else{console.warn("T3 Skip");}
@@ -568,13 +578,23 @@
         /** Runs the initial setup when the script loads */
         function initializeApp() {
             console.log("Initializing App..."); // DEBUG
-            loadData();             // Load saved state
-            checkCanary();          // Perform integrity check
-            renderFilterOptions();  // Create filter checkboxes
-            showPage(currentPage);  // Display the correct initial page
-            renderUI();             // Render initial UI
-            runSelfTests();         // Run basic functional tests
-            console.log("SideQuestr App Initialized!");
+            try {
+                loadData();             // Load saved state
+                checkCanary();          // Perform integrity check
+                renderFilterOptions();  // Create filter checkboxes
+                showPage(currentPage);  // Display the correct initial page
+                renderUI();             // Render initial UI
+                runSelfTests();         // Run basic functional tests
+                console.log("SideQuestr App Initialized Successfully!");
+            } catch (error) {
+                console.error("Critical error during app initialization:", error);
+                // Display a fallback error message to the user
+                document.body.innerHTML = `<div style="padding: 2em; font-family: sans-serif; color: red; background-color: #fff0f0; border: 1px solid red;">
+                    <h2>Application Error</h2>
+                    <p>Sorry, SideQuestr could not start correctly. Please check the console (F12) for details or try clearing application data.</p>
+                    <p>Error: ${error.message}</p>
+                    </div>`;
+            }
         }
 
         // Run initialization when the DOM is fully loaded

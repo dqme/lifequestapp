@@ -88,15 +88,7 @@
         .scope-tag { display: inline-block; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 500; margin-right: 0.5rem; margin-top: 0.25rem; }
         .scope-local { background-color: #c6f6d5; color: #2f855a; } .scope-regional { background-color: #bee3f8; color: #2b6cb0; } .scope-epic { background-color: #faf089; color: #b7791f; } .scope-quirky { background-color: #fed7e2; color: #97266d; } .scope-social { background-color: #d6bcfa; color: #6b46c1; } .scope-creative { background-color: #fbd38d; color: #af6b08; } .scope-kindness { background-color: #a7f3d0; color: #047857; } .scope-custom { background-color: #e9d8fd; color: #805ad5; }
         .profile-section { background-color: var(--card-bg); border: 1px solid var(--card-border); padding: 0.75rem; border-radius: 0.5rem; text-align: center; margin-bottom: 1rem; }
-        .profile-info {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            color: var(--text-color);
-            font-size: 0.875rem; /* Apply font size here if needed, or use Tailwind on inner elements */
-        }
+        .profile-info { display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 0.5rem; color: var(--text-color); font-size: 0.875rem; }
         .profile-title { font-style: italic; color: var(--link-color); }
         .progress-bar-bg { background-color: #e2e8f0; border-radius: 0.25rem; overflow: hidden; height: 0.75rem; margin-top: 0.5rem; }
         .progress-bar-fg { background-color: var(--progress-bar-fg); height: 100%; border-radius: 0.25rem; transition: width 0.5s ease-in-out; }
@@ -180,7 +172,8 @@
 </head>
 <body class="p-4 md:p-8">
 
-    <span id="canary" class="hidden">lql-v10.10-cssfix4</span> <div id="canary-warning" class="canary-warning hidden max-w-4xl mx-auto">
+    <span id="canary" class="hidden">lql-v10.11-achievefix</span>
+    <div id="canary-warning" class="canary-warning hidden max-w-4xl mx-auto">
         Warning: App integrity check failed! The application code may have been modified.
     </div>
 
@@ -273,10 +266,7 @@
 
         <div id="info-page" class="page" role="tabpanel">
              <div class="info-contact-content">
-                 <h2>Info / FAQ</h2>
-                 <h3>What is SideQuestr?</h3>
-                 <p>SideQuestr is a simple tool designed to inject a bit of randomness and adventure into your everyday life. It generates random "quests"—small, sometimes quirky tasks or observations—to encourage you to explore your surroundings, try new things, and embrace the spirit of a side quest!</p>
-                 <h3>How does it work?</h3> <p>The app randomly combines actions...</p> <ul> <li>Use the <strong>Quest Log</strong> tab...</li> <li>Click <strong>Generate Quests</strong>...</li> <li>Optionally, enter a <strong>Custom Location</strong>...</li> <li>Click <strong>Accept</strong>...</li> <li>When you complete a quest... click <strong>Mark Complete</strong>...</li> <li>Don't like a quest... Click its <strong>Reroll</strong> button...</li> <li>Use the <strong>📝 Notes</strong> button...</li> <li>Browse your noted quests in the <strong>Travel Journal</strong> tab.</li><li>Earn badges on the <strong>Achievements</strong> tab.</li> </ul> <h3>What do the tags and profile info mean?</h3> <ul> <li><strong>Scope...</strong></li> <li><strong>Type...</strong></li> <li><strong>Quirky...</strong></li> <li><strong>Travel Icons...</strong></li> <li><strong>Level & Title...</strong></li> <li><strong>XP Bar...</strong></li> <li><strong>Completion Date...</strong></li> </ul> <h3>How does XP and Leveling work?</h3> <p>You gain Experience Points (XP)...</p> <ul> <li><code>Local</code> / <code>Custom Loc.</code>: 10 XP</li> <li><code>Regional</code>: 30 XP</li> <li><code>Epic</code>: 100 XP</li> <li><code>Quirky</code> Bonus: +5 XP</li> </ul> <p>As you gain XP, you'll automatically level up...</p> <h3>Is my data saved?</h3> <p>Yes, your quest lists, XP, level, custom location, notes, stats, and achievement progress are saved in your browser's <strong>local storage</strong>...</p> <p>There are no user accounts or cloud saving...</p>
+                 <h2>Info / FAQ</h2> <h3>What is SideQuestr?</h3> <p>SideQuestr is a simple tool...</p> <h3>How does it work?</h3> <p>The app randomly combines actions...</p> <ul> <li>Use the <strong>Quest Log</strong> tab...</li> <li>Click <strong>Generate Quests</strong>...</li> <li>Optionally, enter a <strong>Custom Location</strong>...</li> <li>Click <strong>Accept</strong>...</li> <li>When you complete a quest... click <strong>Mark Complete</strong>...</li> <li>Don't like a quest... Click its <strong>Reroll</strong> button...</li> <li>Use the <strong>📝 Notes</strong> button...</li> <li>Browse your noted quests in the <strong>Travel Journal</strong> tab.</li><li>Earn badges on the <strong>Achievements</strong> tab.</li> </ul> <h3>What do the tags and profile info mean?</h3> <ul> <li><strong>Scope...</strong></li> <li><strong>Type...</strong></li> <li><strong>Quirky...</strong></li> <li><strong>Travel Icons...</strong></li> <li><strong>Level & Title...</strong></li> <li><strong>XP Bar...</strong></li> <li><strong>Completion Date...</strong></li> </ul> <h3>How does XP and Leveling work?</h3> <p>You gain Experience Points (XP)...</p> <ul> <li><code>Local</code> / <code>Custom Loc.</code>: 10 XP</li> <li><code>Regional</code>: 30 XP</li> <li><code>Epic</code>: 100 XP</li> <li><code>Quirky</code> Bonus: +5 XP</li> </ul> <p>As you gain XP, you'll automatically level up...</p> <h3>Is my data saved?</h3> <p>Yes, your quest lists, XP, level, custom location, notes, stats, and achievement progress are saved in your browser's <strong>local storage</strong>...</p> <p>There are no user accounts or cloud saving...</p>
              </div>
         </div>
 
@@ -356,10 +346,14 @@
              let newlyEarnedAchievement = null;
              stats.questsWithNotes = completedQuests.filter(q => q.notes && q.notes.trim() !== '').length;
              for (const id in achievements) { if (!achievementStatus[id]) { const achievement = achievements[id]; if (achievement.criteria(stats, currentLevel)) { achievementStatus[id] = true; if (!newlyEarnedAchievement) { newlyEarnedAchievement = achievement; } console.log(`Achievement Earned: ${achievement.name}`); } } }
-             if (newlyEarnedAchievement) { showAchievementAlert(newlyEarnedAchievement.name, newlyEarnedAchievement.icon); playSound('achievement'); }
+             if (newlyEarnedAchievement) {
+                 showAchievementAlert(newlyEarnedAchievement.name, newlyEarnedAchievement.icon);
+                 playSound('achievement');
+                 saveData(); // FIX: Save achievement status immediately
+             }
              if (newlyEarnedAchievement || currentPage === 'achievements-page') { renderAchievements(); } };
-        const completeQuest = (id) => { /* ... (same as v10) ... */ const questIndex = activeQuests.findIndex(q => q.id === id); if (questIndex > -1) { const oldLevel = currentLevel; const [questToMove] = activeQuests.splice(questIndex, 1); const completedQuestData = { text: questToMove.text, scope: questToMove.scope, type: questToMove.type || 'General', quirky: questToMove.quirky, travelMode: questToMove.travelMode, notes: questToMove.notes || '', completionDate: new Date().toISOString() }; completedQuests.push(completedQuestData); stats.totalCompleted = (stats.totalCompleted || 0) + 1; const questType = completedQuestData.type; stats.completedByType[questType] = (stats.completedByType[questType] || 0) + 1; let xpGained = 0; const scopeForXp = completedQuestData.scope === 'Custom' ? 'Local' : completedQuestData.scope; switch (scopeForXp) { case 'Local': xpGained = 10; break; case 'Regional': xpGained = 30; break; case 'Epic': xpGained = 100; break; default: xpGained = 10; } if (completedQuestData.quirky) xpGained += 5; currentXP += xpGained; currentLevel = calculateLevel(currentXP); checkAchievements(); if (currentLevel > oldLevel) { showLevelUpAlert(currentLevel); playSound('levelUp'); } else { playSound('complete'); } renderUI(); saveData(); } };
-        const updateNotes = (id, newNotes) => { /* ... (same as v10) ... */ let quest = activeQuests.find(q => q.id === id); if (quest) { quest.notes = newNotes; } else { quest = completedQuests.find(q => q.id === id); if (quest) { quest.notes = newNotes; } } checkAchievements(); saveData(); };
+        const completeQuest = (id) => { /* ... (same as v10 - calls updated checkAchievements) ... */ const questIndex = activeQuests.findIndex(q => q.id === id); if (questIndex > -1) { const oldLevel = currentLevel; const [questToMove] = activeQuests.splice(questIndex, 1); const completedQuestData = { text: questToMove.text, scope: questToMove.scope, type: questToMove.type || 'General', quirky: questToMove.quirky, travelMode: questToMove.travelMode, notes: questToMove.notes || '', completionDate: new Date().toISOString() }; completedQuests.push(completedQuestData); stats.totalCompleted = (stats.totalCompleted || 0) + 1; const questType = completedQuestData.type; stats.completedByType[questType] = (stats.completedByType[questType] || 0) + 1; let xpGained = 0; const scopeForXp = completedQuestData.scope === 'Custom' ? 'Local' : completedQuestData.scope; switch (scopeForXp) { case 'Local': xpGained = 10; break; case 'Regional': xpGained = 30; break; case 'Epic': xpGained = 100; break; default: xpGained = 10; } if (completedQuestData.quirky) xpGained += 5; currentXP += xpGained; currentLevel = calculateLevel(currentXP); checkAchievements(); if (currentLevel > oldLevel) { showLevelUpAlert(currentLevel); playSound('levelUp'); } else { playSound('complete'); } renderUI(); saveData(); } };
+        const updateNotes = (id, newNotes) => { /* ... (same as v10 - calls updated checkAchievements) ... */ let quest = activeQuests.find(q => q.id === id); if (quest) { quest.notes = newNotes; } else { quest = completedQuests.find(q => q.id === id); if (quest) { quest.notes = newNotes; } } checkAchievements(); saveData(); };
 
         // Alert Popups
         const showLevelUpAlert = (level) => { /* ... (same as v8) ... */ const newTitle = getTitleForLevel(level); levelUpAlert.textContent = `Level Up! Reached Level ${level}: ${newTitle}!`; levelUpAlert.classList.add('show'); setTimeout(() => { levelUpAlert.classList.remove('show'); }, 3500); };
@@ -388,22 +382,47 @@
         const renderUI = () => { renderProfile(); renderLists(); }
 
         // --- Canary Check ---
-        const checkCanary = () => { /* ... (uses updated expected value) ... */ const expectedValue = "lql-v10.10-cssfix4"; if (!canaryElement || canaryElement.textContent !== expectedValue) { canaryWarning.classList.remove('hidden'); console.warn("Canary check failed!"); } else { console.log("Canary check passed."); } };
+        const checkCanary = () => {
+            // FIX: Use correct expected value from HTML
+            const expectedValue = "lql-v10.11-achievefix";
+            if (!canaryElement || canaryElement.textContent !== expectedValue) {
+                canaryWarning.classList.remove('hidden');
+                console.warn(`Canary check failed! Expected "${expectedValue}" but found "${canaryElement?.textContent}".`);
+            } else {
+                 console.log("Canary check passed.");
+            }
+        };
 
         // --- Basic Self-Testing ---
-        const runSelfTests = () => { /* ... (Tests 1-11 from v10.4) ... */
-             console.group("SideQuestr Self-Tests (v10.10)"); // Updated name
-             try { const tq=generateQuest(); console.assert(typeof tq==='object'&&tq.id&&tq.text,"T1 Fail"); if(typeof tq==='object'&&tq.id&&tq.text)console.log("T1 Pass: generateQuest"); } catch(e){console.error("T1 Err:",e);}
-             try { const cl="T"; const tqc=generateQuest(cl); console.assert(typeof tqc==='object'&&tqc.text.includes(cl),"T2 Fail"); if(typeof tqc==='object'&&tqc.text.includes(cl))console.log("T2 Pass: generateQuest custom loc"); } catch(e){console.error("T2 Err:",e);}
-             console.log("T3: Sim Accept..."); let ia=[generateQuest(),generateQuest()]; let iac=[]; if(ia.length>0){const qta={...ia[0], notes:''};iac.push(qta);ia.splice(0,1);console.assert(ia.length===1&&iac.length===1&&iac[0].id===qta.id&&'notes' in iac[0],"T3 Fail"); if(ia.length===1&&iac.length===1&&iac[0].id===qta.id&&'notes' in iac[0])console.log("T3 Pass: Sim Accept");}else{console.warn("T3 Skip");}
-             console.log("T4: Sim Complete..."); let iafc=[{...generateQuest(), notes:'test'}]; let ic=[]; let ix=currentXP; if(iafc.length>0){const qtc={...iafc[0]}; const sfxp=qtc.scope==='Custom'?'Local':qtc.scope; let exg=0; switch(sfxp){case 'Local':exg=10;break;case 'Regional':exg=30;break;case 'Epic':exg=100;break;default:exg=10;} if(qtc.quirky)exg+=5; ic.push({...qtc, completionDate: new Date().toISOString()}); iafc.splice(0,1); const fxp=ix+exg; console.assert(iafc.length===0&&ic.length===1&&ic[0].id===qtc.id&&ic[0].completionDate&&ic[0].notes==='test',"T4 Fail"); if(iafc.length===0&&ic.length===1&&ic[0].id===qtc.id&&ic[0].completionDate)console.log(`T4 Pass: Sim Complete (XP+${exg}, Date Added)`);}else{console.warn("T4 Skip");}
-             console.log("T5: Sim Reroll..."); let iafr=[generateQuest(),generateQuest()]; if(iafr.length>0){const oqid=iafr[0].id; const nq=generateQuest(); iafr[0]=nq; console.assert(iafr.length===2&&iafr[0].id!==oqid,"T5 Fail"); if(iafr.length===2&&iafr[0].id!==oqid)console.log("T5 Pass: Sim Reroll");}else{console.warn("T5 Skip");}
-             console.log("T6: Sim Add Notes..."); const qfn=generateQuest(); qfn.notes=''; const tn="Notes test."; const aqb=[...activeQuests]; activeQuests=[qfn]; try { updateNotes(qfn.id,tn); console.assert(activeQuests[0].notes===tn,"T6 Fail"); if(activeQuests[0].notes===tn)console.log("T6 Pass: Sim Add Notes"); } catch(e){console.error("T6 Err:",e);} activeQuests=aqb;
-             console.log("T7: Testing Render Journal Page..."); const cbk=[...completedQuests]; completedQuests=[{...generateQuest(),notes:"J1",completionDate:new Date().toISOString()},{...generateQuest(),notes:"",completionDate:new Date().toISOString()}]; try { renderJournalPage(); console.assert(journalList.innerHTML.includes("J1")&&!journalList.innerHTML.includes("Complete quests"),"T7 Fail"); if(journalList.innerHTML.includes("J1"))console.log("T7 Pass: renderJournalPage ran"); } catch(e){console.error("T7 Err:",e);} completedQuests=cbk;
-             console.log("Test 8: Testing Get Title For Level..."); try { const t1=getTitleForLevel(1); const t5=getTitleForLevel(5); const t10=getTitleForLevel(10); console.assert(t1==="Novice Quester"&&t5==="Seasoned Adventurer"&&t10==="Quirk Master","T8 Fail"); if(t1==="Novice Quester"&&t5==="Seasoned Adventurer")console.log("T8 Pass: getTitleForLevel()"); } catch(e){console.error("T8 Err:",e);}
-             console.log("Test 9: Simulating Achievement Check..."); const statsBackup = JSON.parse(JSON.stringify(stats)); const achievementStatusBackup = JSON.parse(JSON.stringify(achievementStatus)); stats.totalCompleted = 10; stats.completedByType['Social'] = 5; const levelBackup = currentLevel; currentLevel = 5; achievementStatus = {}; try { checkAchievements(); console.assert(achievementStatus['complete_1'] && achievementStatus['complete_10'] && achievementStatus['level_5'] && achievementStatus['social_5'], "T9 Fail"); if (achievementStatus['complete_10'] && achievementStatus['level_5']) console.log("T9 Pass: checkAchievements()"); } catch(e) { console.error("T9 Failed: checkAchievements() threw an error:", e); } stats = statsBackup; achievementStatus = achievementStatusBackup; currentLevel = levelBackup;
-             console.log("Test 10: Simulating Filtering..."); try { renderFilterOptions(); const filters = getActiveFilters(); console.assert(Array.isArray(filters), "T10 Fail"); if(Array.isArray(filters)) console.log("T10 Pass: getActiveFilters() runs"); } catch(e) { console.error("T10 Failed: Filtering setup threw an error:", e); }
-             console.log("Test 11: Simulating Achievement Alert..."); let alertTriggered = false; const realShowAchievementAlert = showAchievementAlert; showAchievementAlert = (name, icon) => { alertTriggered = true; console.log(`Simulated alert for: ${icon} ${name}`); }; const statsBkp = JSON.parse(JSON.stringify(stats)); const achBkp = JSON.parse(JSON.stringify(achievementStatus)); stats.totalCompleted = 0; achievementStatus = {}; stats.totalCompleted = 1; checkAchievements(); console.assert(alertTriggered, "Test 11 Failed: Achievement alert was not triggered."); if(alertTriggered) console.log("Test 11 Passed: Achievement alert triggered."); showAchievementAlert = realShowAchievementAlert; stats = statsBkp; achievementStatus = achBkp;
+        const runSelfTests = () => {
+             console.group("SideQuestr Self-Tests (v10.11)"); // Updated name
+             // Test 1-10 remain the same
+              try { const tq=generateQuest(); console.assert(typeof tq==='object'&&tq.id&&tq.text,"T1 Fail"); if(typeof tq==='object'&&tq.id&&tq.text)console.log("T1 Pass: generateQuest"); } catch(e){console.error("T1 Err:",e);}
+              try { const cl="T"; const tqc=generateQuest(cl); console.assert(typeof tqc==='object'&&tqc.text.includes(cl),"T2 Fail"); if(typeof tqc==='object'&&tqc.text.includes(cl))console.log("T2 Pass: generateQuest custom loc"); } catch(e){console.error("T2 Err:",e);}
+              console.log("T3: Sim Accept..."); let ia=[generateQuest(),generateQuest()]; let iac=[]; if(ia.length>0){const qta={...ia[0], notes:''};iac.push(qta);ia.splice(0,1);console.assert(ia.length===1&&iac.length===1&&iac[0].id===qta.id&&'notes' in iac[0],"T3 Fail"); if(ia.length===1&&iac.length===1&&iac[0].id===qta.id&&'notes' in iac[0])console.log("T3 Pass: Sim Accept");}else{console.warn("T3 Skip");}
+              console.log("T4: Sim Complete..."); let iafc=[{...generateQuest(), notes:'test'}]; let ic=[]; let ix=currentXP; if(iafc.length>0){const qtc={...iafc[0]}; const sfxp=qtc.scope==='Custom'?'Local':qtc.scope; let exg=0; switch(sfxp){case 'Local':exg=10;break;case 'Regional':exg=30;break;case 'Epic':exg=100;break;default:exg=10;} if(qtc.quirky)exg+=5; ic.push({...qtc, completionDate: new Date().toISOString()}); iafc.splice(0,1); const fxp=ix+exg; console.assert(iafc.length===0&&ic.length===1&&ic[0].id===qtc.id&&ic[0].completionDate&&ic[0].notes==='test',"T4 Fail"); if(iafc.length===0&&ic.length===1&&ic[0].id===qtc.id&&ic[0].completionDate)console.log(`T4 Pass: Sim Complete (XP+${exg}, Date Added)`);}else{console.warn("T4 Skip");}
+              console.log("T5: Sim Reroll..."); let iafr=[generateQuest(),generateQuest()]; if(iafr.length>0){const oqid=iafr[0].id; const nq=generateQuest(); iafr[0]=nq; console.assert(iafr.length===2&&iafr[0].id!==oqid,"T5 Fail"); if(iafr.length===2&&iafr[0].id!==oqid)console.log("T5 Pass: Sim Reroll");}else{console.warn("T5 Skip");}
+              console.log("T6: Sim Add Notes..."); const qfn=generateQuest(); qfn.notes=''; const tn="Notes test."; const aqb=[...activeQuests]; activeQuests=[qfn]; try { updateNotes(qfn.id,tn); console.assert(activeQuests[0].notes===tn,"T6 Fail"); if(activeQuests[0].notes===tn)console.log("T6 Pass: Sim Add Notes"); } catch(e){console.error("T6 Err:",e);} activeQuests=aqb;
+              console.log("T7: Testing Render Journal Page..."); const cbk=[...completedQuests]; completedQuests=[{...generateQuest(),notes:"J1",completionDate:new Date().toISOString()},{...generateQuest(),notes:"",completionDate:new Date().toISOString()}]; try { renderJournalPage(); console.assert(journalList.innerHTML.includes("J1")&&!journalList.innerHTML.includes("Complete quests"),"T7 Fail"); if(journalList.innerHTML.includes("J1"))console.log("T7 Pass: renderJournalPage ran"); } catch(e){console.error("T7 Err:",e);} completedQuests=cbk;
+              console.log("Test 8: Testing Get Title For Level..."); try { const t1=getTitleForLevel(1); const t5=getTitleForLevel(5); const t10=getTitleForLevel(10); console.assert(t1==="Novice Quester"&&t5==="Seasoned Adventurer"&&t10==="Quirk Master","T8 Fail"); if(t1==="Novice Quester"&&t5==="Seasoned Adventurer")console.log("T8 Pass: getTitleForLevel()"); } catch(e){console.error("T8 Err:",e);}
+              console.log("Test 9: Simulating Achievement Check..."); const statsBackup = JSON.parse(JSON.stringify(stats)); const achievementStatusBackup = JSON.parse(JSON.stringify(achievementStatus)); stats.totalCompleted = 10; stats.completedByType['Social'] = 5; const levelBackup = currentLevel; currentLevel = 5; achievementStatus = {}; try { checkAchievements(); console.assert(achievementStatus['complete_1'] && achievementStatus['complete_10'] && achievementStatus['level_5'] && achievementStatus['social_5'], "T9 Fail"); if (achievementStatus['complete_10'] && achievementStatus['level_5']) console.log("T9 Pass: checkAchievements()"); } catch(e) { console.error("T9 Failed: checkAchievements() threw an error:", e); } stats = statsBackup; achievementStatus = achievementStatusBackup; currentLevel = levelBackup;
+              console.log("Test 10: Simulating Filtering..."); try { renderFilterOptions(); const filters = getActiveFilters(); console.assert(Array.isArray(filters), "T10 Fail"); if(Array.isArray(filters)) console.log("T10 Pass: getActiveFilters() runs"); } catch(e) { console.error("T10 Failed: Filtering setup threw an error:", e); }
+             // Test 11: Achievement Alert Trigger (Simulated)
+             console.log("Test 11: Simulating Achievement Alert...");
+             let alertTriggered = false;
+             const realShowAchievementAlert = showAchievementAlert; // Backup real function
+             // Mock function - NOTE: showAchievementAlert is now 'let', not 'const'
+             showAchievementAlert = (name, icon) => { alertTriggered = true; console.log(`Simulated alert for: ${icon} ${name}`); };
+             const statsBkp = JSON.parse(JSON.stringify(stats)); const achBkp = JSON.parse(JSON.stringify(achievementStatus));
+             stats.totalCompleted = 0; achievementStatus = {}; // Reset for test
+             stats.totalCompleted = 1; // Trigger achievement
+             checkAchievements();
+             console.assert(alertTriggered, "Test 11 Failed: Achievement alert was not triggered.");
+             if(alertTriggered) console.log("Test 11 Passed: Achievement alert triggered.");
+             showAchievementAlert = realShowAchievementAlert; // Restore real function
+             stats = statsBkp; achievementStatus = achBkp; // Restore state
+
+
              console.groupEnd();
          };
 

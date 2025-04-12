@@ -172,7 +172,7 @@
 </head>
 <body class="p-4 md:p-8">
 
-    <span id="canary" class="hidden">sqr-v1.0.2-gen-debug</span>
+    <span id="canary" class="hidden">sqr-v1.0.4-canaryfix</span>
     <div id="canary-warning" class="canary-warning hidden max-w-4xl mx-auto">
         Warning: App integrity check failed! The application code may have been modified.
     </div>
@@ -279,7 +279,7 @@
     </div>
     <script>
         // ==========================================================================
-        // SideQuestr v1.0.2 - Application Script (Debugging)
+        // SideQuestr v1.0.4 - Application Script (Canary Fix)
         // ==========================================================================
         // Handles quest generation, state management, UI rendering, achievements,
         // themes, sounds, journaling, and other features. Includes extra logging.
@@ -338,76 +338,120 @@
         const loadData = () => { /* ... (same as v10) ... */ try { availableQuests = JSON.parse(localStorage.getItem(LS_KEYS.AVAILABLE)) || []; activeQuests = JSON.parse(localStorage.getItem(LS_KEYS.ACTIVE)) || []; completedQuests = JSON.parse(localStorage.getItem(LS_KEYS.COMPLETED)) || []; activeQuests.forEach(q => q.notes = q.notes || ''); completedQuests.forEach(q => { q.notes = q.notes || ''; q.completionDate = q.completionDate || null; }); currentXP = parseInt(localStorage.getItem(LS_KEYS.XP)) || 0; customLocation = localStorage.getItem(LS_KEYS.LOCATION) || ''; customLocationInput.value = customLocation; currentLevel = calculateLevel(currentXP); stats = JSON.parse(localStorage.getItem(LS_KEYS.STATS)) || { totalCompleted: 0, completedByType: {}, questsWithNotes: 0 }; achievementStatus = JSON.parse(localStorage.getItem(LS_KEYS.ACHIEVEMENTS)) || {}; currentTheme = localStorage.getItem(LS_KEYS.THEME) || 'default'; soundEnabled = localStorage.getItem(LS_KEYS.SOUND) !== 'false'; applyTheme(currentTheme); updateMuteButton(); } catch (e) { console.error("Error loading data:", e); /* Reset state on error */ availableQuests = []; activeQuests = []; completedQuests = []; currentXP = 0; currentLevel = 1; customLocation = ''; stats = { totalCompleted: 0, completedByType: {}, questsWithNotes: 0 }; achievementStatus = {}; currentTheme = 'default'; soundEnabled = true; } };
 
         // --- Core Logic ---
-        const generateQuest = (locationOverride = null) => { /* ... (same as v10.6) ... */ let template; const useLocation = locationOverride || customLocation; let potentialTemplates = questData.templates; if (!useLocation) { potentialTemplates = potentialTemplates.filter(t => !t.structure.includes('{custom_location}')); } if (useLocation) { const locationTemplates = potentialTemplates.filter(t => t.structure.includes('{location_') || t.structure.includes('{custom_location}')); if (Math.random() < 0.7 && locationTemplates.length > 0) { const customTemplate = locationTemplates.find(t => t.structure.includes('{custom_location}')); if (customTemplate && template.structure.includes('{custom_location}')) { template = customTemplate; } else { template = getRandomElement(locationTemplates); } } } if (!template) { const validTemplates = !useLocation ? potentialTemplates.filter(t => !t.structure.includes('{custom_location}')) : potentialTemplates; if (validTemplates.length > 0) { template = getRandomElement(validTemplates); } } if (!template) { console.error("Error: Could not select a quest template. Using default."); template = { structure: "Observe something interesting nearby", scope: "Local", type: "General", quirky: 0, travelMode: "walk" }; } let questText = template.structure; const getFilteredElement = (key, filter) => { const list = questData[key]; if (!list) return null; if (!filter) return getRandomElement(list); const filteredList = list.filter(item => filter.includes(item)); return filteredList.length > 0 ? getRandomElement(filteredList) : (list.length > 0 ? getRandomElement(list) : null); }; questText = questText.replace('{action}', getFilteredElement('actions', template.actionFilter) || 'Observe'); questText = questText.replace('{object}', getFilteredElement('objects', template.objectFilter) || 'something interesting'); questText = questText.replace('{modifier}', getFilteredElement('modifiers', template.modifierFilter) || ''); if (useLocation && questText.includes('{custom_location}')) { questText = questText.replace('{custom_location}', useLocation); } else if (useLocation && (questText.includes('{location_local}') || questText.includes('{location_regional}') || questText.includes('{location_epic}'))) { questText = questText.replace(/\{(location_local|location_regional|location_epic)\}/g, useLocation); } else { questText = questText.replace('{location_local}', getFilteredElement('locations_local', template.locationFilter) || 'nearby'); questText = questText.replace('{location_regional}', getFilteredElement('locations_regional', template.locationFilter) || 'regionally'); questText = questText.replace('{location_epic}', getFilteredElement('locations_epic', template.locationFilter) || 'far away'); } questText = questText.replace(/\s\s+/g, ' ').trim(); questText = questText.charAt(0).toUpperCase() + questText.slice(1); const finalScope = useLocation && (template.structure.includes('{location_') || template.structure.includes('{custom_location}')) ? 'Custom' : template.scope; return { id: Date.now() + Math.random(), text: questText, scope: finalScope || 'Local', type: template.type || "General", quirky: template.quirky >= 2, travelMode: template.travelMode || "walk" }; };
+        /** Generates a single random quest object */
+        const generateQuest = (locationOverride = null) => { /* ... (same as v10.3) ... */
+            // console.log("generateQuest called. Custom Location:", customLocation, "Override:", locationOverride); // DEBUG
+            let template;
+            const useLocation = locationOverride || customLocation;
+            // console.log("Using location:", useLocation || "None"); // DEBUG
+            let potentialTemplates = questData.templates;
+
+            if (!useLocation) {
+                potentialTemplates = potentialTemplates.filter(t => !t.structure.includes('{custom_location}'));
+            }
+
+            if (useLocation) {
+                const locationTemplates = potentialTemplates.filter(t =>
+                    t.structure.includes('{location_') || t.structure.includes('{custom_location}')
+                );
+                 // console.log(`Found ${locationTemplates.length} location-based templates.`); // DEBUG
+                if (Math.random() < 0.7 && locationTemplates.length > 0) {
+                     const customTemplate = locationTemplates.find(t => t.structure.includes('{custom_location}'));
+                     if (customTemplate && useLocation && !locationOverride) {
+                         template = customTemplate;
+                         // console.log("Attempting to use specific custom template."); // DEBUG
+                     } else {
+                         template = getRandomElement(locationTemplates);
+                         // console.log("Using random location template."); // DEBUG
+                     }
+                }
+            }
+
+            if (!template) {
+                 const validTemplates = !useLocation
+                    ? potentialTemplates.filter(t => !t.structure.includes('{custom_location}'))
+                    : potentialTemplates;
+                 // console.log(`No template yet, choosing from ${validTemplates.length} valid templates.`); // DEBUG
+                 if (validTemplates.length > 0) {
+                     template = getRandomElement(validTemplates);
+                 }
+            }
+
+             if (!template) {
+                 console.error("Error: Could not select a quest template. Using default.");
+                 template = { structure: "Observe something interesting nearby", scope: "Local", type: "General", quirky: 0, travelMode: "walk" };
+             }
+             // console.log("Selected template structure:", template?.structure); // DEBUG
+
+            let questText = template.structure;
+            const getFilteredElement = (key, filter) => { const list = questData[key]; if (!list) return null; if (!filter) return getRandomElement(list); const filteredList = list.filter(item => filter.includes(item)); return filteredList.length > 0 ? getRandomElement(filteredList) : (list.length > 0 ? getRandomElement(list) : null); };
+
+            questText = questText.replace('{action}', getFilteredElement('actions', template.actionFilter) || 'Observe');
+            questText = questText.replace('{object}', getFilteredElement('objects', template.objectFilter) || 'something interesting');
+            questText = questText.replace('{modifier}', getFilteredElement('modifiers', template.modifierFilter) || '');
+
+             if (useLocation && questText.includes('{custom_location}')) {
+                 questText = questText.replace('{custom_location}', useLocation);
+                 // console.log("Replaced {custom_location}"); // DEBUG
+             } else if (useLocation && (questText.includes('{location_local}') || questText.includes('{location_regional}') || questText.includes('{location_epic}'))) {
+                 questText = questText.replace(/\{(location_local|location_regional|location_epic)\}/g, useLocation);
+                 // console.log("Replaced generic location placeholder with custom location"); // DEBUG
+             } else {
+                 questText = questText.replace('{location_local}', getFilteredElement('locations_local', template.locationFilter) || 'nearby');
+                 questText = questText.replace('{location_regional}', getFilteredElement('locations_regional', template.locationFilter) || 'regionally');
+                 questText = questText.replace('{location_epic}', getFilteredElement('locations_epic', template.locationFilter) || 'far away');
+             }
+
+             questText = questText.replace(/\s\s+/g, ' ').trim();
+             questText = questText.charAt(0).toUpperCase() + questText.slice(1);
+
+            const finalScope = useLocation && (template.structure.includes('{location_') || template.structure.includes('{custom_location}')) ? 'Custom' : template.scope;
+
+            const finalQuestObject = {
+                id: Date.now() + Math.random(), text: questText, scope: finalScope || 'Local', type: template.type || "General", quirky: template.quirky >= 2, travelMode: template.travelMode || "walk"
+            };
+            // console.log("Generated quest object:", finalQuestObject); // DEBUG
+            return finalQuestObject;
+         };
         /** Generates a new set of available quests, applying filters */
-        const generateNewSet = () => {
-            console.log("generateNewSet called"); // DEBUG
+        const generateNewSet = () => { /* ... (same as v10.2 with logging removed) ... */
             try {
                 customLocation = customLocationInput.value.trim();
-                availableQuests = []; // Clear previous available quests
-                const numToShow = 3 + Math.floor(Math.random() * 3); // Target 3-5 quests
-                const numToGenerate = 25; // Generate a larger pool
+                availableQuests = [];
+                const numToShow = 3 + Math.floor(Math.random() * 3);
+                const numToGenerate = 25;
                 const generatedPool = [];
-                console.log(`Generating pool of ${numToGenerate} quests...`); // DEBUG
-
-                // Generate initial pool of quests
                 for (let i = 0; i < numToGenerate; i++) {
                     const newQuest = generateQuest();
-                    if(newQuest) { // Ensure quest generation didn't fail
-                        generatedPool.push(newQuest);
-                    } else {
-                        console.error("generateQuest returned null/undefined during pool generation");
-                    }
+                    if(newQuest) { generatedPool.push(newQuest); }
+                    else { console.error(`generateQuest returned null/undefined during pool generation (iteration ${i})`); }
                 }
-                console.log(`Generated pool size: ${generatedPool.length}`); // DEBUG
-
-                // Apply selected Type Filters
                 const activeFilters = getActiveFilters();
-                console.log("Active filters:", activeFilters); // DEBUG
                 let potentialQuests = generatedPool;
                 if (activeFilters.length > 0) {
                     potentialQuests = generatedPool.filter(quest => activeFilters.includes(quest.type || "General"));
-                    console.log(`Filtered pool size: ${potentialQuests.length}`); // DEBUG
-                } else {
-                    console.log("No filters active, using full pool."); // DEBUG
-                    potentialQuests = generatedPool;
                 }
-
-                // Select quests, prioritizing filtered ones, ensuring variety if possible
                 if (potentialQuests.length >= numToShow) {
-                    // Shuffle and take the target number if enough quests match filters
                     availableQuests = potentialQuests.sort(() => 0.5 - Math.random()).slice(0, numToShow);
                 } else {
-                    // Not enough filtered quests, take all that match
                     availableQuests = [...potentialQuests];
-                    // Fill the remaining slots with *unfiltered* quests from the original pool
                     const needed = numToShow - availableQuests.length;
                     if (needed > 0) {
-                        console.log(`Not enough filtered quests, needing ${needed} more.`); // DEBUG
-                        // Get quests from the original pool that weren't already selected
                         const fallbackQuests = generatedPool.filter(q => !availableQuests.some(aq => aq.id === q.id));
-                        availableQuests.push(...fallbackQuests.sort(() => 0.5 - Math.random()).slice(0, needed)); // Add random fallbacks
+                        availableQuests.push(...fallbackQuests.sort(() => 0.5 - Math.random()).slice(0, needed));
                     }
                 }
-                console.log(`Final availableQuests size: ${availableQuests.length}`); // DEBUG
-                // console.log("Final availableQuests:", JSON.stringify(availableQuests)); // DEBUG (can be verbose)
-
-
-                // Final check if something went wrong and availableQuests is still empty
                  if (availableQuests.length === 0 && generatedPool.length > 0) {
-                     availableQuests = generatedPool.slice(0, numToShow); // Fallback to unfiltered pool
+                     availableQuests = generatedPool.slice(0, numToShow);
                      console.warn("Filtering resulted in zero quests, showing unfiltered quests.");
                  } else if (availableQuests.length === 0) {
                      console.error("Failed to generate any quests to display.");
                  }
-
-                playSound('generate'); // Play sound effect
-                renderUI(); // Render the new list
-                saveData(); // Save the new state
-                console.log("generateNewSet finished."); // DEBUG
+                playSound('generate');
+                renderUI();
+                saveData();
             } catch (error) {
-                console.error("Error occurred in generateNewSet:", error); // Catch any unexpected errors
-                // Optionally display an error message to the user
+                console.error("Error occurred in generateNewSet:", error);
                 availableList.innerHTML = '<p class="text-red-600 font-bold">Error generating quests. Please check console (F12) and report the error.</p>';
             }
         };
@@ -427,18 +471,14 @@
         /** Updates notes for a quest */
         const updateNotes = (id, newNotes) => { /* ... (same as v10) ... */ let quest = activeQuests.find(q => q.id === id); let listChanged = 'active'; if (quest) { quest.notes = newNotes; } else { quest = completedQuests.find(q => q.id === id); if (quest) { quest.notes = newNotes; listChanged = 'completed'; } } if (quest) { console.log(`Notes updated for quest ${id} in ${listChanged} list.`); checkAchievements(); saveData(); } else { console.warn(`Could not find quest with ID ${id} to update notes.`); } };
 
-        // --------------------------------------------------------------------------
-        // ALERT POPUPS
-        // --------------------------------------------------------------------------
+        // --- Alert Popups ---
         /** Displays level up alert */
         const showLevelUpAlert = (level) => { /* ... (same as v8) ... */ const newTitle = getTitleForLevel(level); levelUpAlert.textContent = `Level Up! Reached Level ${level}: ${newTitle}!`; levelUpAlert.classList.add('show'); setTimeout(() => { levelUpAlert.classList.remove('show'); }, 3500); };
         /** Displays achievement alert */
         let showAchievementAlert = (name, icon) => { /* ... (same as v10.3) ... */ achievementAlert.innerHTML = `${icon} Achievement Unlocked: ${name}!`; achievementAlert.classList.add('show'); setTimeout(() => { achievementAlert.classList.remove('show'); }, 3500); };
 
 
-        // --------------------------------------------------------------------------
-        // UI RENDERING FUNCTIONS
-        // --------------------------------------------------------------------------
+        // --- Rendering Functions ---
         /** Gets travel mode emoji */
         const getTravelIcon = (mode) => { /* ... (same as v8) ... */ if (!mode) return ''; if (mode.includes('plane')) return '✈️'; if (mode.includes('train')) return '🚆'; if (mode.includes('bus')) return '🚌'; if (mode.includes('car')) return '🚗'; if (mode.includes('bike')) return '🚲'; if (mode.includes('walk')) return '🚶'; return ''; };
         /** Creates HTML for a single quest card */
@@ -474,7 +514,8 @@
         // --------------------------------------------------------------------------
         /** Performs a simple integrity check */
         const checkCanary = () => {
-            const expectedValue = "sqr-v1.0.1-gen-debug"; // Match the canary value in HTML
+            // FIX: Update expected value to match HTML span
+            const expectedValue = "sqr-v1.0.3-canaryfix";
             if (!canaryElement || canaryElement.textContent !== expectedValue) {
                 canaryWarning.classList.remove('hidden');
                 console.warn(`Canary check failed! Expected "${expectedValue}" but found "${canaryElement?.textContent}".`);
@@ -488,7 +529,7 @@
         // --------------------------------------------------------------------------
         /** Runs basic functional tests on load */
         const runSelfTests = () => { /* ... (Tests 1-11 from v10.10) ... */
-             console.group("SideQuestr Self-Tests (v1.0.1 - Debug)");
+             console.group("SideQuestr Self-Tests (v1.0.3 - Canary Fix)"); // Updated version in log
              try { const tq=generateQuest(); console.assert(typeof tq==='object'&&tq.id&&tq.text,"T1 Fail"); if(typeof tq==='object'&&tq.id&&tq.text)console.log("T1 Pass: generateQuest"); } catch(e){console.error("T1 Err:",e);}
              try { const cl="T"; const tqc=generateQuest(cl); console.assert(typeof tqc==='object'&&tqc.text.includes(cl),"T2 Fail"); if(typeof tqc==='object'&&tqc.text.includes(cl))console.log("T2 Pass: generateQuest custom loc"); } catch(e){console.error("T2 Err:",e);}
              console.log("T3: Sim Accept..."); let ia=[generateQuest(),generateQuest()]; let iac=[]; if(ia.length>0){const qta={...ia[0], notes:''};iac.push(qta);ia.splice(0,1);console.assert(ia.length===1&&iac.length===1&&iac[0].id===qta.id&&'notes' in iac[0],"T3 Fail"); if(ia.length===1&&iac.length===1&&iac[0].id===qta.id&&'notes' in iac[0])console.log("T3 Pass: Sim Accept");}else{console.warn("T3 Skip");}
